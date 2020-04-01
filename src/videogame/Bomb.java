@@ -35,7 +35,7 @@ public class Bomb extends Item{
     }
         
     public void render(Graphics g) {
-        g.drawImage(Assets.alien, getX(), getY(), getWidth(), getHeight(), null);
+        g.drawImage(Assets.bomb, getX(), getY(), getWidth(), getHeight(), null);
     }
 
     @Override

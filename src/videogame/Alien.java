@@ -32,6 +32,7 @@ public class Alien extends Item {
         this.direction = 1;
         this.game = game;
         this.visible = true;
+        this.isAlive = true;
     }
     public void setDirection(int direction){
         this.direction = direction;

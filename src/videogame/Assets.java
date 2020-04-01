@@ -18,6 +18,7 @@ public class Assets {
     public static BufferedImage explosion;
     public static BufferedImage alien;
     public static BufferedImage shot;
+    public static BufferedImage bomb;
     
     public static void init(){
         player = ImageLoader.loadImage("/resources/player.png");
@@ -25,5 +26,6 @@ public class Assets {
         //background = ImageLoader.loadImage("/resources/background.png");
         alien = ImageLoader.loadImage("/resources/alien.png");
         shot = ImageLoader.loadImage("/resources/shot.png");
+        bomb = ImageLoader.loadImage("/resources/bomb.png");
     }
 }
