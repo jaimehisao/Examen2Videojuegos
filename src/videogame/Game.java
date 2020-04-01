@@ -1,10 +1,5 @@
-package spaceinvaders;
+package videogame;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  * 
  * @author Jaime Hisao w/antoniomejorado
@@ -17,7 +12,9 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import javax.swing.Timer;
 
 public class Game implements Runnable {
@@ -36,7 +33,9 @@ public class Game implements Runnable {
     private String fileName; //Path to the game file txt
 
     //Game Data & Score Keeping
-    int score, lives, hits;
+    int score, lives, hits, alienHits;
+    
+    int direction;
 
     //Objects contained in the Game
     private List<Alien> aliens;
@@ -69,6 +68,11 @@ public class Game implements Runnable {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
         display.getJframe().addKeyListener(keyManager);
+        score = 0;
+        lives = 0;
+        hits = 0;
+        alienHits = 0;
+        direction = 1;
         
         //Initialize the Player
         player = new Player(270,280, getWidth(),getHeight(),this);
@@ -115,7 +119,7 @@ public class Game implements Runnable {
 
         //Tick the Shot
         shot.tick();
-<<<<<<< HEAD
+
 
         // shot
         if (shot.isVisible()) {
@@ -134,9 +138,9 @@ public class Game implements Runnable {
                             && shotY >= (alienY)
                             && shotY <= (alienY + Commons.ALIEN_HEIGHT)) {
 
-                        alien.setImage(alien.loadImage("/resources/explosion.png"));
+                        alien.setImage(Assets.explosion);
                         alien.setDying(true);
-                        deaths++;
+                        alienHits++;
                         shot.die();
                     }
                 }
@@ -235,8 +239,7 @@ public class Game implements Runnable {
                 }
             }
         }
-=======
->>>>>>> 053de131dd44b9292e8b373ca92f3bc21b5fc5e8
+
     }
 
     /**
