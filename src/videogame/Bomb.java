@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package spaceinvaders;
+package videogame;
 
 import java.awt.Graphics;
 
@@ -45,5 +45,4 @@ public class Bomb extends Item{
             this.die();
         }
     }
-
 }

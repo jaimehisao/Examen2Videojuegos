@@ -1,4 +1,4 @@
-package spaceinvaders;
+package videogame;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -8,12 +8,11 @@ package spaceinvaders;
 
 /**
  *
- * @author antoniomejorado
+ * @author Jaime Hisao, Casale w/antoniomejorado
  */
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 
-public class Videogame extends JFrame  {
+public class Videogame extends JFrame {
     
     static Game g;
     

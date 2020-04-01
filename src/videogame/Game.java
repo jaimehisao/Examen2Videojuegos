@@ -1,10 +1,5 @@
-package spaceinvaders;
+package videogame;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  * 
  * @author Jaime Hisao w/antoniomejorado
@@ -20,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import javax.swing.Timer;
 
 public class Game implements Runnable {
 
@@ -37,16 +33,15 @@ public class Game implements Runnable {
     private String fileName; //Path to the game file txt
 
     //Game Data & Score Keeping
-    int score, lives, hits;
+    int score, lives, hits, alienHits;
+    
+    int direction;
 
     //Objects contained in the Game
     private List<Alien> aliens;
     private Player player;
     private Shot shot;
     
-    
-    //????
-    private Timer timer;
 
     public Game(String title, int width, int height) {
         this.title = title;
@@ -73,6 +68,11 @@ public class Game implements Runnable {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
         display.getJframe().addKeyListener(keyManager);
+        score = 0;
+        lives = 0;
+        hits = 0;
+        alienHits = 0;
+        direction = 1;
         
         //Initialize the Player
         player = new Player(270,280, getWidth(),getHeight(),this);
@@ -110,7 +110,7 @@ public class Game implements Runnable {
         if (score == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
 
             running = false;
-            timer.stop();
+            //timer.stop();
             //message = "Game won!";
         }
 
@@ -119,6 +119,10 @@ public class Game implements Runnable {
 
         //Tick the Shot
         shot.tick();
+<<<<<<< HEAD:src/spaceinvaders/Game.java
+=======
+
+>>>>>>> 562b63bf52054a10bb00c8bf329a5797776162d9:src/videogame/Game.java
 
         // shot
         if (shot.isVisible()) {
@@ -137,8 +141,14 @@ public class Game implements Runnable {
                             && shotY >= (alienY)
                             && shotY <= (alienY + Commons.ALIEN_HEIGHT)) {
 
+<<<<<<< HEAD:src/spaceinvaders/Game.java
                         alien.die();
                         deaths++;
+=======
+                        alien.setImage(Assets.explosion);
+                        alien.setDying(true);
+                        alienHits++;
+>>>>>>> 562b63bf52054a10bb00c8bf329a5797776162d9:src/videogame/Game.java
                         shot.die();
                     }
                 }
@@ -204,6 +214,10 @@ public class Game implements Runnable {
                 bomb.tick();
             }
         }
+<<<<<<< HEAD:src/spaceinvaders/Game.java
+=======
+
+>>>>>>> 562b63bf52054a10bb00c8bf329a5797776162d9:src/videogame/Game.java
     }
 
     /**
@@ -573,20 +587,7 @@ public class Game implements Runnable {
         }
     }
 
-    private void doGameCycle() {
-
-        update();
-        repaint();
-    }
-
-    private class GameCycle implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            doGameCycle();
-        }
-    }
+   
 
 
 
