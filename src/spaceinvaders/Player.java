@@ -15,49 +15,36 @@ import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
 
 public class Player extends Item {
-
+    private Game game;
     //borrar
     private boolean visible;
     
-    private int width;
     private int dx;
     private boolean isAlive;
     public Player(int x, int y, int width, int height, Game game) {
-        initPlayer();
-    }
-  
-    private void initPlayer() {
-
- 
-        setImage(ImageLoader.loadImage("/resources/player.png"));
-        width = getImage().getWidth();
-
-        int START_X = 270;
-        setX(START_X);
-
-        int START_Y = 280;
-        setY(START_Y);
-
-        super(x, 280, width, height);
-        dx = 0;
+        super(x, y, width, height);
+        this.game = game;
         
+        dx = 0;
         visible = true;
     }
+  
 
     @Override
     public void tick() {
-
+        
+        if(this.game.getKeyManager().left)
+            dx = -2;
+        if(this.game.getKeyManager().right)
+            dx = 2;
+            
         x += dx;
 
-        if (x <= 2) {
-
+        if (x <= 2) 
             x = 2;
-        }
 
-        if (x >= Commons.BOARD_WIDTH - 2 * width) {
-
+        if (x >= Commons.BOARD_WIDTH - 2 * width) 
             x = Commons.BOARD_WIDTH - 2 * width;
-        }
     }
 
     public void keyPressed(KeyEvent e) {

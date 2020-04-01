@@ -79,7 +79,7 @@ public class Game implements Runnable {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
                 Alien alien = new Alien(Commons.ALIEN_INIT_X + 18 * j,
-                        Commons.ALIEN_INIT_Y + 18 * i);
+                        Commons.ALIEN_INIT_Y + 18 * i, Commons.ALIEN_WIDTH, Commons.ALIEN_HEIGHT, this);
                 aliens.add(alien);
             }
         }
@@ -113,13 +113,130 @@ public class Game implements Runnable {
         //Tick the Player
         player.tick();
 
+        //Tick the Shot
+        shot.tick();
+<<<<<<< HEAD
+
+        // shot
+        if (shot.isVisible()) {
+
+            int shotX = shot.getX();
+            int shotY = shot.getY();
+
+            for (Alien alien : aliens) {
+
+                int alienX = alien.getX();
+                int alienY = alien.getY();
+
+                if (alien.isVisible() && shot.isVisible()) {
+                    if (shotX >= (alienX)
+                            && shotX <= (alienX + Commons.ALIEN_WIDTH)
+                            && shotY >= (alienY)
+                            && shotY <= (alienY + Commons.ALIEN_HEIGHT)) {
+
+                        alien.setImage(alien.loadImage("/resources/explosion.png"));
+                        alien.setDying(true);
+                        deaths++;
+                        shot.die();
+                    }
+                }
+            }
+
+            int y = shot.getY();
+            y -= 4;
+
+            if (y < 0) {
+                shot.die();
+            } else {
+                shot.setY(y);
+            }
+        }
+
         //Tick the Aliens
         for (Alien alien : aliens) {
             alien.tick();
+            int x = alien.getX();
+
+            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
+
+                direction = -1;
+
+                Iterator<Alien> i1 = aliens.iterator();
+
+                while (i1.hasNext()) {
+
+                    Alien a2 = i1.next();
+                    a2.setY(a2.getY() + Commons.GO_DOWN);
+                }
+            }
+
+            if (x <= Commons.BORDER_LEFT && direction != 1) {
+
+                direction = 1;
+
+                Iterator<Alien> i2 = aliens.iterator();
+
+                while (i2.hasNext()) {
+
+                    Alien a = i2.next();
+                    a.setY(a.getY() + Commons.GO_DOWN);
+                }
+            }
         }
 
-        //Tick the Shot
-        shot.tick();
+        Iterator<Alien> it = aliens.iterator();
+
+        while (it.hasNext()) {
+
+            Alien alien = it.next();
+
+            if (alien.isVisible()) {
+
+                int y = alien.getY();
+
+                if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
+                    inGame = false;
+                    message = "Invasion!";
+                }
+
+                alien.setDirection(direction);
+            }
+        }
+
+        // bombs
+        Random generator = new Random();
+
+        for (Alien alien : aliens) {
+
+            int shot = generator.nextInt(15);
+            Bomb bomb = alien.getBomb();
+
+            if (shot == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
+
+                bomb.setDestroyed(false);
+                bomb.setX(alien.getX());
+                bomb.setY(alien.getY());
+            }
+
+            if (player.isVisible() && !bomb.isDestroyed()) {
+                if(bomb.collision(player)){
+                    player.die();
+                    bomb.die();
+                }
+            }
+
+            if (!bomb.isDestroyed()) {
+
+                bomb.setY(bomb.getY() + 1);
+
+                if (bomb.getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) {
+
+                    bomb.die();
+                }
+            }
+        }
+=======
+>>>>>>> 053de131dd44b9292e8b373ca92f3bc21b5fc5e8
     }
 
     /**
