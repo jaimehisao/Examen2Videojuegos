@@ -214,10 +214,6 @@ public class Game implements Runnable {
                 bomb.tick();
             }
         }
-<<<<<<< HEAD:src/spaceinvaders/Game.java
-=======
-
->>>>>>> 562b63bf52054a10bb00c8bf329a5797776162d9:src/videogame/Game.java
     }
 
     /**
