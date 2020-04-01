@@ -17,7 +17,7 @@ public class Player extends Sprite {
 
     private int width;
 
-    public Player() {
+    public Player(int x, int y, int width, int height, Game game) {
 
         initPlayer();
     }
@@ -35,7 +35,7 @@ public class Player extends Sprite {
         setY(START_Y);
     }
 
-    public void act() {
+    public void tick() {
 
         x += dx;
 
