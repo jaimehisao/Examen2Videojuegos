@@ -356,15 +356,12 @@ public class Game implements Runnable {
 
             // if delta is positive we tick the game
             // tambien si el estatus del juego es 0, si no, enseñamos la pantalla que se acabo el juego
-            if (delta >= 1 && gameStatus == 0) {
+            if (delta >= 1) {
                 tick();
                 render();
                 delta--;
-            } else if (gameStatus == 1) {
-                gameOver();
-            }
+            } 
         }
-        gameOver();
         stop();
     }
 

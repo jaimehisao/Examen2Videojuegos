@@ -19,41 +19,6 @@ public class Videogame extends JFrame  {
     
     public static void main(String[] args) {
         g = new Game("Space Invaders", Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
-        //check this resolution for the correct one.
     }
-    
-    
-    
-    
-    
-/*
-    public Videogame() {
-
-        initUI();
-    }
-
-    private void initUI() {
-
-        add(new Game());
-
-        setTitle("Space Invaders");
-        setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
-
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
-        setLocationRelativeTo(null);
-    }
-
-    public static void main(String[] args) {
-
-        EventQueue.invokeLater(() -> {
-
-            Videogame ex = new Videogame();
-            ex.setVisible(true);
-        });
-    }
-
-*/
-    
     
 }
