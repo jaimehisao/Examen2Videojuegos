@@ -54,6 +54,8 @@ public class Alien extends Item {
     public boolean isVisible(){
         return this.visible;
     }
+    
+    @Override
     public void render(Graphics g) {
         g.drawImage(Assets.alien, getX(), getY(), getWidth(), getHeight(), null);
     }

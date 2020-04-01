@@ -6,8 +6,9 @@ package spaceinvaders;
  * and open the template in the editor.
  */
 /**
- *
- * @author antoniomejorado
+ * 
+ * @author Jaime Hisao w/antoniomejorado
+ * @author Rodrigo Casale
  */
 import java.awt.Color;
 import java.awt.Font;
@@ -42,6 +43,10 @@ public class Game implements Runnable {
     private List<Alien> aliens;
     private Player player;
     private Shot shot;
+    
+    
+    //????
+    private Timer timer;
 
     public Game(String title, int width, int height) {
         this.title = title;
@@ -119,135 +124,6 @@ public class Game implements Runnable {
 
         //Tick the Shot
         shot.tick();
-
-        // shot
-        if (shot.isVisible()) {
-
-            int shotX = shot.getX();
-            int shotY = shot.getY();
-
-            for (Alien alien : aliens) {
-
-                int alienX = alien.getX();
-                int alienY = alien.getY();
-
-                if (alien.isVisible() && shot.isVisible()) {
-                    if (shotX >= (alienX)
-                            && shotX <= (alienX + Commons.ALIEN_WIDTH)
-                            && shotY >= (alienY)
-                            && shotY <= (alienY + Commons.ALIEN_HEIGHT)) {
-
-                        alien.setImage(alien.loadImage("/resources/explosion.png"));
-                        alien.setDying(true);
-                        deaths++;
-                        shot.die();
-                    }
-                }
-            }
-
-            int y = shot.getY();
-            y -= 4;
-
-            if (y < 0) {
-                shot.die();
-            } else {
-                shot.setY(y);
-            }
-        }
-
-        for (Alien alien : aliens) {
-
-            int x = alien.getX();
-
-            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
-
-                direction = -1;
-
-                Iterator<Alien> i1 = aliens.iterator();
-
-                while (i1.hasNext()) {
-
-                    Alien a2 = i1.next();
-                    a2.setY(a2.getY() + Commons.GO_DOWN);
-                }
-            }
-
-            if (x <= Commons.BORDER_LEFT && direction != 1) {
-
-                direction = 1;
-
-                Iterator<Alien> i2 = aliens.iterator();
-
-                while (i2.hasNext()) {
-
-                    Alien a = i2.next();
-                    a.setY(a.getY() + Commons.GO_DOWN);
-                }
-            }
-        }
-
-        Iterator<Alien> it = aliens.iterator();
-
-        while (it.hasNext()) {
-
-            Alien alien = it.next();
-
-            if (alien.isVisible()) {
-
-                int y = alien.getY();
-
-                if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
-                    inGame = false;
-                    message = "Invasion!";
-                }
-
-                alien.act(direction);
-            }
-        }
-
-        // bombs
-        Random generator = new Random();
-
-        for (Alien alien : aliens) {
-
-            int shot = generator.nextInt(15);
-            Alien.Bomb bomb = alien.getBomb();
-
-            if (shot == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
-
-                bomb.setDestroyed(false);
-                bomb.setX(alien.getX());
-                bomb.setY(alien.getY());
-            }
-
-            int bombX = bomb.getX();
-            int bombY = bomb.getY();
-            int playerX = player.getX();
-            int playerY = player.getY();
-
-            if (player.isVisible() && !bomb.isDestroyed()) {
-
-                if (bombX >= (playerX)
-                        && bombX <= (playerX + Commons.PLAYER_WIDTH)
-                        && bombY >= (playerY)
-                        && bombY <= (playerY + Commons.PLAYER_HEIGHT)) {
-
-                    player.setImage(player.loadImage("/resources/explosion.png"));
-                    player.setDying(true);
-                    bomb.setDestroyed(true);
-                }
-            }
-
-            if (!bomb.isDestroyed()) {
-
-                bomb.setY(bomb.getY() + 1);
-
-                if (bomb.getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) {
-
-                    bomb.setDestroyed(true);
-                }
-            }
-        }
     }
 
     /**
@@ -274,7 +150,10 @@ public class Game implements Runnable {
 
         for (Alien alien : aliens) {
             alien.render(g);
+            alien.bomb.render(g);
         }
+        
+        shot.render();
 
         bs.show();
         g.dispose();
