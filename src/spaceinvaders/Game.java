@@ -17,9 +17,8 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
+import javax.swing.Timer;
 
 public class Game implements Runnable {
 
@@ -44,9 +43,6 @@ public class Game implements Runnable {
     private Player player;
     private Shot shot;
     
-    
-    //????
-    private Timer timer;
 
     public Game(String title, int width, int height) {
         this.title = title;
@@ -110,7 +106,7 @@ public class Game implements Runnable {
         if (score == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
 
             running = false;
-            timer.stop();
+            //timer.stop();
             //message = "Game won!";
         }
 
@@ -150,7 +146,7 @@ public class Game implements Runnable {
 
         for (Alien alien : aliens) {
             alien.render(g);
-            alien.bomb.render(g);
+            alien.getBomb().render(g);
         }
         
         shot.render();
@@ -491,20 +487,7 @@ public class Game implements Runnable {
         }
     }
 
-    private void doGameCycle() {
-
-        update();
-        repaint();
-    }
-
-    private class GameCycle implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            doGameCycle();
-        }
-    }
+   
 
 
 
