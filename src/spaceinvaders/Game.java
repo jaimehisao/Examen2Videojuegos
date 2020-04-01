@@ -6,8 +6,9 @@ package spaceinvaders;
  * and open the template in the editor.
  */
 /**
- *
- * @author antoniomejorado
+ * 
+ * @author Jaime Hisao w/antoniomejorado
+ * @author Rodrigo Casale
  */
 import java.awt.Color;
 import java.awt.Font;
@@ -42,6 +43,10 @@ public class Game implements Runnable {
     private List<Alien> aliens;
     private Player player;
     private Shot shot;
+    
+    
+    //????
+    private Timer timer;
 
     public Game(String title, int width, int height) {
         this.title = title;
@@ -114,6 +119,7 @@ public class Game implements Runnable {
 
         //Tick the Shot
         shot.tick();
+<<<<<<< HEAD
 
         // shot
         if (shot.isVisible()) {
@@ -233,6 +239,8 @@ public class Game implements Runnable {
                 }
             }
         }
+=======
+>>>>>>> 053de131dd44b9292e8b373ca92f3bc21b5fc5e8
     }
 
     /**
@@ -259,7 +267,10 @@ public class Game implements Runnable {
 
         for (Alien alien : aliens) {
             alien.render(g);
+            alien.bomb.render(g);
         }
+        
+        shot.render();
 
         bs.show();
         g.dispose();
