@@ -24,5 +24,6 @@ public class Assets {
         explosion = ImageLoader.loadImage("/resources/explosion.png");
         background = ImageLoader.loadImage("/resources/background.png");
         alien = ImageLoader.loadImage("/resources/alien.png");
+        shot = ImageLoader.loadImage("/resources/shot.png");
     }
 }
