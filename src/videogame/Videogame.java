@@ -10,14 +10,13 @@ package videogame;
  *
  * @author Jaime Hisao, Casale w/antoniomejorado
  */
-import javax.swing.JFrame;
-
-public class Videogame extends JFrame {
+public class Videogame {
     
     static Game g;
     
     public static void main(String[] args) {
         g = new Game("Space Invaders", Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+        g.start();
     }
     
 }

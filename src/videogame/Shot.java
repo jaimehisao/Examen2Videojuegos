@@ -14,12 +14,12 @@ import java.awt.Graphics;
 
 public class Shot extends Item {
     private boolean visible;
-    public Shot() {
-        
-    }
+    
 
     public Shot(int x, int y, int width, int heigth) {
         super(x + 6 , y - 1 , width, heigth);
+        this.x = x;
+        this.y = y;
         this.visible = true;
     }
     public boolean isVisible(){

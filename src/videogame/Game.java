@@ -7,7 +7,6 @@ package videogame;
  */
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import javax.swing.Timer;
+
 
 public class Game implements Runnable {
 
@@ -49,6 +48,11 @@ public class Game implements Runnable {
         this.height = height;
         running = false;
         keyManager = new KeyManager();
+        score = 0;
+        lives = 0;
+        hits = 0;
+        alienHits = 0;
+        direction = 1;
     }
 
     private void save(String fileName) {
@@ -67,12 +71,6 @@ public class Game implements Runnable {
     private void init() {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
-        display.getJframe().addKeyListener(keyManager);
-        score = 0;
-        lives = 0;
-        hits = 0;
-        alienHits = 0;
-        direction = 1;
         
         //Initialize the Player
         player = new Player(270,280, getWidth(),getHeight(),this);
@@ -87,11 +85,16 @@ public class Game implements Runnable {
                 aliens.add(alien);
             }
         }
+        
+        
+        
+        display.getJframe().addKeyListener(keyManager);
 
-        shot = new Shot();
+        shot = new Shot(10, 20, getWidth(), getHeight());
     }
 
     private void tick() {
+   
         //Ticks the KeyManager to have the updated keys.
         keyManager.tick();
 
@@ -148,8 +151,8 @@ public class Game implements Runnable {
                 int y = alien.getY();
 
                 if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
-                    inGame = false;
-                    message = "Invasion!";
+                    //inGame = false;
+                    //message = "Invasion!";
                 }
 
                 //alien.setDirection(0-alien.getDirection());
@@ -197,8 +200,10 @@ public class Game implements Runnable {
             display.getCanvas().createBufferStrategy(3);
         } else {
             g = bs.getDrawGraphics();
-            g.drawImage(Assets.background, 0, 0, width, height, null);
-        }
+            g.setColor(Color.black);
+            g.fillRect(0, 0, getWidth(), getHeight());
+            //g.drawImage(Assets.background, 0, 0, width, height, null);
+        
 
         //Show Text for hits, lives and score
         g.setColor(Color.red);
@@ -215,6 +220,7 @@ public class Game implements Runnable {
 
         bs.show();
         g.dispose();
+        }
     }
 
     /**
@@ -233,12 +239,14 @@ public class Game implements Runnable {
         g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
 
         Font small = new Font("Helvetica", Font.BOLD, 14);
-        FontMetrics fontMetrics = this.getFontMetrics(small);
+        //FontMetrics fontMetrics;
+        //fontMetrics = fontMetrics.getFontMetrics(small);
 
         g.setColor(Color.white);
         g.setFont(small);
-        g.drawString("Game Over", (Commons.BOARD_WIDTH - fontMetrics.stringWidth("Game Over")) / 2,
-                Commons.BOARD_WIDTH / 2);
+        g.drawString("Game Over", 100 , 0);
+        //g.drawString("Game Over", (Commons.BOARD_WIDTH - fontMetrics.stringWidth("Game Over")) / 2,
+        //        Commons.BOARD_WIDTH / 2);
     }
 
     /**
@@ -247,10 +255,12 @@ public class Game implements Runnable {
      * @author Jaime Hisao
      */
     public synchronized void start() {
+        System.out.println("TRHEAD CREATED1");
         if (!running) {
             running = true;
             thread = new Thread(this);
             thread.start();
+            System.out.print("THREAD CREATED2!");
         }
     }
 
@@ -260,6 +270,7 @@ public class Game implements Runnable {
      * @author Jaime Hisao
      */
     public synchronized void stop() {
+        System.out.println("THREAD STOPPED");
         if (running) {
             running = false;
             try {
@@ -276,6 +287,7 @@ public class Game implements Runnable {
      */
     @Override
     public void run() {
+        
         init();
         // frames per second
         int fps = 50;
@@ -303,7 +315,7 @@ public class Game implements Runnable {
                 delta--;
             } 
         }
-        stop();
+        //stop();
     }
     public KeyManager getKeyManager(){
         return this.keyManager;

@@ -55,7 +55,7 @@ public class Display {
         canvas.setPreferredSize(new Dimension(width, height));
         canvas.setMaximumSize(new Dimension(width, height));
         canvas.setPreferredSize(new Dimension(width, height));
-        canvas.setFocusable(false);
+        canvas.setFocusable(true);
         
         // adding the canvas to the app window and packing to
         // get the right dimensions
