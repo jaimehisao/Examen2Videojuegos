@@ -119,48 +119,16 @@ public class Game implements Runnable {
 
         //Tick the Shot
         shot.tick();
-<<<<<<< HEAD:src/spaceinvaders/Game.java
-=======
-
->>>>>>> 562b63bf52054a10bb00c8bf329a5797776162d9:src/videogame/Game.java
-
         // shot
         if (shot.isVisible()) {
-
-            int shotX = shot.getX();
-            int shotY = shot.getY();
-
             for (Alien alien : aliens) {
-
-                int alienX = alien.getX();
-                int alienY = alien.getY();
-
-                if (alien.isVisible() && shot.isVisible()) {
-                    if (shotX >= (alienX)
-                            && shotX <= (alienX + Commons.ALIEN_WIDTH)
-                            && shotY >= (alienY)
-                            && shotY <= (alienY + Commons.ALIEN_HEIGHT)) {
-
-<<<<<<< HEAD:src/spaceinvaders/Game.java
+                if (alien.isVisible()) {
+                    if(shot.collision(alien)){
                         alien.die();
-                        deaths++;
-=======
-                        alien.setImage(Assets.explosion);
-                        alien.setDying(true);
                         alienHits++;
->>>>>>> 562b63bf52054a10bb00c8bf329a5797776162d9:src/videogame/Game.java
                         shot.die();
                     }
                 }
-            }
-
-            int y = shot.getY();
-            y -= 4;
-
-            if (y < 0) {
-                shot.die();
-            } else {
-                shot.setY(y);
             }
         }
 
@@ -243,7 +211,7 @@ public class Game implements Runnable {
             alien.getBomb().render(g);
         }
         
-        shot.render();
+        shot.render(g);
 
         bs.show();
         g.dispose();
