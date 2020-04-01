@@ -5,24 +5,14 @@ package spaceinvaders;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author antoniomejorado
  */
-
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.Timer;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
@@ -31,69 +21,99 @@ import java.util.List;
 import java.util.Random;
 
 public class Game implements Runnable {
-    
+
     //Game Components
     private BufferStrategy bs;//Contains the display buffers
     private Graphics g; //Provides ability to paint objects
     private Display display; //To Display the game, duh!
-    private KeyManager keyManager;
-   
-    
+    private final KeyManager keyManager;
+
     //Game Information
-     String title; //Title of the Game
+    String title; //Title of the Game
     private int width, height; //Screen Resolution
     private Thread thread; //Separate thread for game execution
     private boolean running; //To see if the game is running
-    
-    //Game Data & Score Keeping 
+    private String fileName; //Path to the game file txt
+
+    //Game Data & Score Keeping
     int score, lives, hits;
-    
+
     //Objects contained in the Game
-    private List<Alien> aliens; 
+    private List<Alien> aliens;
     private Player player;
     private Shot shot;
-    
-    public Game(String title, int width, int height){
+
+    public Game(String title, int width, int height) {
         this.title = title;
         this.width = width;
         this.height = height;
         running = false;
         keyManager = new KeyManager();
     }
-    
+
+    private void save(String fileName) {
+
+    }
+
+    private void load(String fileName) {
+
+    }
+
     /**
      * Initializes the game with many Aliens, single player and shot.
+     *
      * @author Jaime Hisao based on Mejorado's Code
      */
-    private void init(){
+    private void init() {
+        display = new Display(title, getWidth(), getHeight());
+        Assets.init();
+        display.getJframe().addKeyListener(keyManager);
+        
+        //Initialize the Player
+        player = new Player(270,280, getWidth(),getHeight(),this);
+
         //Initialize value for Aliens Array
         aliens = new ArrayList<>();
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
-
                 Alien alien = new Alien(Commons.ALIEN_INIT_X + 18 * j,
                         Commons.ALIEN_INIT_Y + 18 * i, Commons.ALIEN_WIDTH, Commons.ALIEN_HEIGHT, this);
                 aliens.add(alien);
             }
         }
 
-        //Declare player and shot
-        player = new Player(Commons.BOARD_WIDTH/2, Commons.GROUND, Commons.PLAYER_WIDTH, Commons.PLAYER_HEIGHT, this);
         shot = new Shot();
     }
-    
-    private void tick(){
-        
-        if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
+
+    private void tick() {
+        //Ticks the KeyManager to have the updated keys.
+        keyManager.tick();
+
+        //Check if user wants to Load game
+        if (keyManager.load) {
+            keyManager.release(KeyEvent.VK_C);
+            load(fileName);
+        }
+
+        //Check if user wants to Save game
+        if (keyManager.save) {
+            keyManager.release(KeyEvent.VK_S);
+            load(fileName);
+        }
+
+        if (score == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
 
             running = false;
             timer.stop();
-            message = "Game won!";
+            //message = "Game won!";
         }
 
         //Tick the Player
         player.tick();
+
+        //Tick the Shot
+        shot.tick();
 
         // shot
         if (shot.isVisible()) {
@@ -214,38 +234,42 @@ public class Game implements Runnable {
             }
         }
     }
-    
-    
+
     /**
      * Renders the Game and its components
+     *
      * @author Jaime Hisao
      */
-    private void render(){
-         //Retrieves the BS from Display
+    private void render() {
+        //Retrieves the BS from Display
         bs = display.getCanvas().getBufferStrategy();
-        
-        if(bs == null){
+
+        if (bs == null) {
             display.getCanvas().createBufferStrategy(3);
-        }else{
+        } else {
             g = bs.getDrawGraphics();
             g.drawImage(Assets.background, 0, 0, width, height, null);
         }
-        
+
         //Show Text for hits, lives and score
         g.setColor(Color.red);
-       
-        
+
         //Render Individual Game Components
         player.render(g);
-        
-        for(Alien alien:aliens){
+
+        for (Alien alien : aliens) {
             alien.render(g);
         }
-        
+
         bs.show();
         g.dispose();
     }
-    
+
+    /**
+     * Process game after loosing
+     *
+     * @param g Graphics, the graphics object of the game
+     */
     private void gameOver(Graphics g) {
 
         g.setColor(Color.black);
@@ -264,41 +288,42 @@ public class Game implements Runnable {
         g.drawString("Game Over", (Commons.BOARD_WIDTH - fontMetrics.stringWidth("Game Over")) / 2,
                 Commons.BOARD_WIDTH / 2);
     }
-    
+
     /**
      * Starts the game with a new Thread for separate execution
+     *
      * @author Jaime Hisao
      */
-    public synchronized void start(){
-        if(!running){
+    public synchronized void start() {
+        if (!running) {
             running = true;
             thread = new Thread(this);
             thread.start();
         }
     }
-    
+
     /**
      * Stops the thread process.
-     * @author Jaime Hisao 
+     *
+     * @author Jaime Hisao
      */
-    public synchronized void stop(){
-        if(running){
+    public synchronized void stop() {
+        if (running) {
             running = false;
-            try{
+            try {
                 thread.join();
-            }catch(InterruptedException ie){
+            } catch (InterruptedException ie) {
                 System.out.println("Program was interrupted!");
             }
         }
-        
+
     }
-    
-    
+
     /**
-     * 
+     *
      */
     @Override
-    public void run(){
+    public void run() {
         init();
         // frames per second
         int fps = 50;
@@ -318,7 +343,7 @@ public class Game implements Runnable {
             // updating the last time
             lastTime = now;
 
-            // if delta is positive we tick the game 
+            // if delta is positive we tick the game
             // tambien si el estatus del juego es 0, si no, enseñamos la pantalla que se acabo el juego
             if (delta >= 1 && gameStatus == 0) {
                 tick();
@@ -331,16 +356,8 @@ public class Game implements Runnable {
         gameOver();
         stop();
     }
-        
-    
-    
-    
-    
-    
-    
-    
-    
-/*
+
+    /*
     private Dimension d;
     private List<Alien> aliens;
     private Player player;
@@ -374,7 +391,7 @@ public class Game implements Runnable {
         gameInit();
     }
 
-    
+
 
     private void drawAliens(Graphics g) {
 
@@ -462,7 +479,7 @@ public class Game implements Runnable {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    
+
 
     private void update() {
 
@@ -598,30 +615,30 @@ public class Game implements Runnable {
         }
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private class TAdapter extends KeyAdapter {
 
         @Override
@@ -652,7 +669,29 @@ public class Game implements Runnable {
             }
         }
     }
-*/
-    
-    
+     */
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
 }

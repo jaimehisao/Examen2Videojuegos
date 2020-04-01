@@ -13,7 +13,11 @@ import java.awt.image.BufferedImage;
  * @author Rodrigo Casale
  */
 public class Assets {
+<<<<<<< HEAD
     public static BufferedImage background;
+=======
+
+>>>>>>> fa9a7c175c6ce065229ccac057b3056aedc98dbf
     public static BufferedImage player;
     public static BufferedImage explosion;
     public static BufferedImage alien;

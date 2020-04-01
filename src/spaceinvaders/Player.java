@@ -23,6 +23,21 @@ public class Player extends Item {
     private int dx;
     private boolean isAlive;
     public Player(int x, int y, int width, int height, Game game) {
+        initPlayer();
+    }
+  
+    private void initPlayer() {
+
+ 
+        setImage(ImageLoader.loadImage("/resources/player.png"));
+        width = getImage().getWidth();
+
+        int START_X = 270;
+        setX(START_X);
+
+        int START_Y = 280;
+        setY(START_Y);
+
         super(x, 280, width, height);
         dx = 0;
         
