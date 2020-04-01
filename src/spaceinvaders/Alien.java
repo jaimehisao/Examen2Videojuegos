@@ -22,13 +22,15 @@ public class Alien extends Item {
     
     private Bomb bomb;
     private int direction;
+    
+    private Game game;
 
-    public Alien(int x, int y, int width, int height) {
+    public Alien(int x, int y, int width, int height, Game game) {
         super(x, y, width, height);
         bomb = new Bomb(x, y, width, height);
-        direction = 1;
-        
-        visible = true;
+        this.direction = 1;
+        this.game = game;
+        this.visible = true;
     }
     public void setDirection(int direction){
         this.direction = direction;
@@ -40,7 +42,8 @@ public class Alien extends Item {
 
     @Override
     public void tick() {
-        
+        //could it work??
+        this.bomb.tick();
         if (this.x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
             direction = -1;
             this.y += 15;

@@ -73,13 +73,13 @@ public class Game implements Runnable {
             for (int j = 0; j < 6; j++) {
 
                 Alien alien = new Alien(Commons.ALIEN_INIT_X + 18 * j,
-                        Commons.ALIEN_INIT_Y + 18 * i);
+                        Commons.ALIEN_INIT_Y + 18 * i, Commons.ALIEN_WIDTH, Commons.ALIEN_HEIGHT, this);
                 aliens.add(alien);
             }
         }
 
         //Declare player and shot
-        player = new Player();
+        player = new Player(Commons.BOARD_WIDTH/2, Commons.GROUND, Commons.PLAYER_WIDTH, Commons.PLAYER_HEIGHT, this);
         shot = new Shot();
     }
     
@@ -131,13 +131,8 @@ public class Game implements Runnable {
         }
 
         //Tick the Aliens
-        for(Alien alien: aliens){
-            alien.tick();
-        }
-        
-        
         for (Alien alien : aliens) {
-
+            alien.tick();
             int x = alien.getX();
 
             if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
@@ -182,7 +177,7 @@ public class Game implements Runnable {
                     message = "Invasion!";
                 }
 
-                alien.act(direction);
+                alien.setDirection(direction);
             }
         }
 
@@ -192,7 +187,7 @@ public class Game implements Runnable {
         for (Alien alien : aliens) {
 
             int shot = generator.nextInt(15);
-            Alien.Bomb bomb = alien.getBomb();
+            Bomb bomb = alien.getBomb();
 
             if (shot == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
 
@@ -201,21 +196,10 @@ public class Game implements Runnable {
                 bomb.setY(alien.getY());
             }
 
-            int bombX = bomb.getX();
-            int bombY = bomb.getY();
-            int playerX = player.getX();
-            int playerY = player.getY();
-
             if (player.isVisible() && !bomb.isDestroyed()) {
-
-                if (bombX >= (playerX)
-                        && bombX <= (playerX + Commons.PLAYER_WIDTH)
-                        && bombY >= (playerY)
-                        && bombY <= (playerY + Commons.PLAYER_HEIGHT)) {
-
-                    player.setImage(player.loadImage("/resources/explosion.png"));
-                    player.setDying(true);
-                    bomb.setDestroyed(true);
+                if(bomb.collision(player)){
+                    player.die();
+                    bomb.die();
                 }
             }
 
@@ -225,7 +209,7 @@ public class Game implements Runnable {
 
                 if (bomb.getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) {
 
-                    bomb.setDestroyed(true);
+                    bomb.die();
                 }
             }
         }
