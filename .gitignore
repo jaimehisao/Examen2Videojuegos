@@ -1,3 +1,6 @@
 .DS_Store
-
+.properties
 /build/
+nbproject/project.properties
+/nbproject
+/nbproject/project.properties

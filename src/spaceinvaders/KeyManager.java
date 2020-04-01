@@ -22,6 +22,7 @@ public class KeyManager implements KeyListener{
     public boolean a;   // flag to move right the player
     public boolean p;   // flag to move right the player
     public boolean l;   // flag to move right the player
+    public boolean load, save;
 
     private boolean keys[];  // to store all the flags for every key
     
@@ -45,6 +46,15 @@ public class KeyManager implements KeyListener{
         keys[e.getKeyCode()] = false;
     }
     
+     /**
+     * @desc This method "forces" the release of the given key
+     * @author Jaime Hisao
+     * @param keyNum The key to release
+    */
+    public void release(int keyNum){
+        keys[keyNum] = false;
+    }
+    
     /**
      * to enable or disable moves on every tick
      */
@@ -57,5 +67,7 @@ public class KeyManager implements KeyListener{
         a = keys[KeyEvent.VK_A];
         p = keys[KeyEvent.VK_P];
         l = keys[KeyEvent.VK_L];
+        load = keys[KeyEvent.VK_C];
+        save = keys[KeyEvent.VK_G];
     }
 }
