@@ -13,10 +13,14 @@ import java.awt.image.BufferedImage;
  * @author Rodrigo Casale
  */
 public class Assets {
-    public static BufferedImage background;
-    
+
+    public static BufferedImage player;
+    public static BufferedImage explosion;
+    public static BufferedImage alien;
+    public static BufferedImage shot;
     
     public static void init(){
-        background = ImageLoader.loadImage("");
+        player = ImageLoader.loadImage("/resources/player.png");
+        explosion = ImageLoader.loadImage("/resources/explosion.png");
     }
 }

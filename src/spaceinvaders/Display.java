@@ -10,7 +10,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 /**
- *
+ * @author Jaime Hisao
  * @author Rodrigo Casale A01234245
  */
 public class Display {

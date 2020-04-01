@@ -13,9 +13,21 @@ package spaceinvaders;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 
-public class SpaceInvaders extends JFrame  {
-
-    public SpaceInvaders() {
+public class Videogame extends JFrame  {
+    
+    static Game g;
+    
+    public static void main(String[] args) {
+        g = new Game("Space Invaders", Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+        //check this resolution for the correct one.
+    }
+    
+    
+    
+    
+    
+/*
+    public Videogame() {
 
         initUI();
     }
@@ -36,8 +48,12 @@ public class SpaceInvaders extends JFrame  {
 
         EventQueue.invokeLater(() -> {
 
-            SpaceInvaders ex = new SpaceInvaders();
+            Videogame ex = new Videogame();
             ex.setVisible(true);
         });
     }
+
+*/
+    
+    
 }
