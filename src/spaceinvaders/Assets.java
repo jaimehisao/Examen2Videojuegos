@@ -13,5 +13,10 @@ import java.awt.image.BufferedImage;
  * @author Rodrigo Casale
  */
 public class Assets {
-    public static BufferedImage b;
+    public static BufferedImage background;
+    
+    
+    public static void init(){
+        background = ImageLoader.loadImage("");
+    }
 }

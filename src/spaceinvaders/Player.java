@@ -10,6 +10,7 @@ package spaceinvaders;
  *
  * @author antoniomejorado
  */
+import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
 
@@ -21,7 +22,7 @@ public class Player extends Sprite {
 
         initPlayer();
     }
-
+  
     private void initPlayer() {
 
  
