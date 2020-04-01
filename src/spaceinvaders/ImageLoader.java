@@ -11,7 +11,8 @@ import javax.imageio.ImageIO;
 
 /**
  *
- * @author hisao
+ * @author Jaime Hisao
+ * @author Rodrigo Casale
  */
 public class ImageLoader {
      
@@ -32,6 +33,4 @@ public class ImageLoader {
     }
 
 }
-    
-    
-}
+   
