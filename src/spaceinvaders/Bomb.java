@@ -40,10 +40,10 @@ public class Bomb extends Item{
 
     @Override
     public void tick() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.y += 1;
+        if(this.y >= Commons.GROUND - this.height){
+            this.die();
+        }
     }
 
-    void setDestroyed(boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

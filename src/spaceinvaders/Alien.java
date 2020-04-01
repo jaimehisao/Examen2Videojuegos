@@ -24,7 +24,8 @@ public class Alien extends Item {
     private int direction;
     
     private Game game;
-
+    private boolean isAlive;
+    
     public Alien(int x, int y, int width, int height, Game game) {
         super(x, y, width, height);
         bomb = new Bomb(x, y, width, height);
@@ -57,9 +58,15 @@ public class Alien extends Item {
     public boolean isVisible(){
         return this.visible;
     }
-    
+    public void die(){
+        this.isAlive = false;
+    }
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.alien, getX(), getY(), getWidth(), getHeight(), null);
+        if(isAlive)
+            g.drawImage(Assets.alien, getX(), getY(), getWidth(), getHeight(), null);
+        else
+            g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);
+
     }
 }

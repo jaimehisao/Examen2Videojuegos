@@ -119,7 +119,6 @@ public class Game implements Runnable {
 
         //Tick the Shot
         shot.tick();
-<<<<<<< HEAD
 
         // shot
         if (shot.isVisible()) {
@@ -138,8 +137,7 @@ public class Game implements Runnable {
                             && shotY >= (alienY)
                             && shotY <= (alienY + Commons.ALIEN_HEIGHT)) {
 
-                        alien.setImage(alien.loadImage("/resources/explosion.png"));
-                        alien.setDying(true);
+                        alien.die();
                         deaths++;
                         shot.die();
                     }
@@ -159,33 +157,6 @@ public class Game implements Runnable {
         //Tick the Aliens
         for (Alien alien : aliens) {
             alien.tick();
-            int x = alien.getX();
-
-            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
-
-                direction = -1;
-
-                Iterator<Alien> i1 = aliens.iterator();
-
-                while (i1.hasNext()) {
-
-                    Alien a2 = i1.next();
-                    a2.setY(a2.getY() + Commons.GO_DOWN);
-                }
-            }
-
-            if (x <= Commons.BORDER_LEFT && direction != 1) {
-
-                direction = 1;
-
-                Iterator<Alien> i2 = aliens.iterator();
-
-                while (i2.hasNext()) {
-
-                    Alien a = i2.next();
-                    a.setY(a.getY() + Commons.GO_DOWN);
-                }
-            }
         }
 
         Iterator<Alien> it = aliens.iterator();
@@ -203,7 +174,7 @@ public class Game implements Runnable {
                     message = "Invasion!";
                 }
 
-                alien.setDirection(direction);
+                //alien.setDirection(0-alien.getDirection());
             }
         }
 
@@ -230,17 +201,9 @@ public class Game implements Runnable {
             }
 
             if (!bomb.isDestroyed()) {
-
-                bomb.setY(bomb.getY() + 1);
-
-                if (bomb.getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) {
-
-                    bomb.die();
-                }
+                bomb.tick();
             }
         }
-=======
->>>>>>> 053de131dd44b9292e8b373ca92f3bc21b5fc5e8
     }
 
     /**
@@ -267,7 +230,7 @@ public class Game implements Runnable {
 
         for (Alien alien : aliens) {
             alien.render(g);
-            alien.bomb.render(g);
+            alien.getBomb().render(g);
         }
         
         shot.render();
@@ -364,7 +327,9 @@ public class Game implements Runnable {
         }
         stop();
     }
-
+    public KeyManager getKeyManager(){
+        return this.keyManager;
+    }
     /*
     private Dimension d;
     private List<Alien> aliens;

@@ -21,6 +21,7 @@ public class Player extends Item {
     
     private int dx;
     private boolean isAlive;
+    
     public Player(int x, int y, int width, int height, Game game) {
         super(x, y, width, height);
         this.game = game;
