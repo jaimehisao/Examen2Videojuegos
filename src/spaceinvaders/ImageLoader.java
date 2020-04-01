@@ -31,6 +31,4 @@ public class ImageLoader {
         }
         return bi;
     }
-
 }
-   
