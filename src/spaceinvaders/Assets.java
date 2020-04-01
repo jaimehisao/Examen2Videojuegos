@@ -5,10 +5,13 @@
  */
 package spaceinvaders;
 
+import java.awt.image.BufferedImage;
+
 /**
  *
- * @author hisao
+ * @author Jaime Hisao
+ * @author Rodrigo Casale
  */
 public class Assets {
-    
+    public static BufferedImage b;
 }
