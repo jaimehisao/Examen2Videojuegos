@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Board extends JPanel {
+public class Game extends JPanel {
 
     private Dimension d;
     private List<Alien> aliens;
@@ -46,7 +46,7 @@ public class Board extends JPanel {
     private Timer timer;
 
 
-    public Board() {
+    public Game() {
 
         initBoard();
         gameInit();
