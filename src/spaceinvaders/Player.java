@@ -10,31 +10,26 @@ package spaceinvaders;
  *
  * @author antoniomejorado
  */
+import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
 
-public class Player extends Sprite {
+public class Player extends Item {
 
+    //borrar
+    private boolean visible;
+    
     private int width;
-
+    private int dx;
+    private boolean isAlive;
     public Player(int x, int y, int width, int height, Game game) {
-
-        initPlayer();
+        super(x, 280, width, height);
+        dx = 0;
+        
+        visible = true;
     }
 
-    private void initPlayer() {
-
- 
-        setImage(loadImage("/resources/player.png"));
-        width = getImage().getWidth();
-
-        int START_X = 270;
-        setX(START_X);
-
-        int START_Y = 280;
-        setY(START_Y);
-    }
-
+    @Override
     public void tick() {
 
         x += dx;
@@ -78,5 +73,20 @@ public class Player extends Sprite {
 
             dx = 0;
         }
+    }
+    
+    
+    public boolean isVisible(){
+        return this.visible;
+    }
+    
+    public void die(){
+        this.isAlive = false;
+    }
+    public void render(Graphics g) {
+        if(isAlive)
+            g.drawImage(Assets.player, getX(), getY(), getWidth(), getHeight(), null);
+        else 
+            g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);
     }
 }
