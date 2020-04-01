@@ -24,13 +24,161 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class Game extends JPanel {
+public class Game implements Runnable {
+    
+    //Game Components
+    private BufferStrategy bs;//Contains the display buffers
+    private Graphics g; //Provides ability to paint objects
+    private Display display; //To Display the game, duh!
+    private KeyManager keyManager;
+   
+    
+    //Game Information
+     String title; //Title of the Game
+    private int width, height; //Screen Resolution
+    private Thread thread; //Separate thread for game execution
+    private boolean running; //To see if the game is running
+    
+    //Game Data & Score Keeping 
+    int score, lives, hits;
+    
+    //Objects contained in the Game
+    private List<Alien> aliens; 
+    private Player player;
+    private Shot shot;
+    
+    public Game(String title, int width, int height){
+        this.title = title;
+        this.width = width;
+        this.height = height;
+        running = false;
+        keyManager = new KeyManager();
+    }
+    
+    /**
+     * Initializes the game with many Aliens, single player and shot.
+     * @author Jaime Hisao based on Mejorado's Code
+     */
+    private void init(){
+        //Initialize value for Aliens Array
+        aliens = new ArrayList<>();
 
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 6; j++) {
+
+                Alien alien = new Alien(Commons.ALIEN_INIT_X + 18 * j,
+                        Commons.ALIEN_INIT_Y + 18 * i);
+                aliens.add(alien);
+            }
+        }
+
+        //Declare player and shot
+        player = new Player();
+        shot = new Shot();
+    }
+    
+    private void tick(){
+    
+    }
+    
+    private void render(){
+         //Retrieves the BS from Display
+        bs = display.getCanvas().getBufferStrategy();
+        
+        if(bs == null){
+            display.getCanvas().createBufferStrategy(3);
+        }else{
+            g = bs.getDrawGraphics();
+            g.drawImage(Assets.background, 0, 0, width, height, null);
+        }
+        
+        //Show Text for hits, lives and score
+        g.setColor(Color.red);
+        g
+    }
+    
+    /**
+     * Starts the game with a new Thread for separate execution
+     * @author Jaime Hisao
+     */
+    public synchronized void start(){
+        if(!running){
+            running = true;
+            thread = new Thread(this);
+            thread.start();
+        }
+    }
+    
+    /**
+     * Stops the thread process.
+     * @author Jaime Hisao 
+     */
+    public synchronized void stop(){
+        if(running){
+            running = false;
+            try{
+                thread.join();
+            }catch(InterruptedException ie){
+                System.out.println("Program was interrupted!");
+            }
+        }
+        
+    }
+    
+    
+    /**
+     * 
+     */
+    @Override
+    public void run(){
+        init();
+        // frames per second
+        int fps = 50;
+        // time for each tick in nano segs
+        double timeTick = 1000000000 / fps;
+        // initializing delta
+        double delta = 0;
+        // define now to use inside the loop
+        long now;
+        // initializing last time to the computer time in nanosecs
+        long lastTime = System.nanoTime();
+        while (running) {
+            // setting the time now to the actual time
+            now = System.nanoTime();
+            // acumulating to delta the difference between times in timeTick units
+            delta += (now - lastTime) / timeTick;
+            // updating the last time
+            lastTime = now;
+
+            // if delta is positive we tick the game 
+            // tambien si el estatus del juego es 0, si no, enseñamos la pantalla que se acabo el juego
+            if (delta >= 1 && gameStatus == 0) {
+                tick();
+                render();
+                delta--;
+            } else if (gameStatus == 1) {
+                gameOver();
+            }
+        }
+        gameOver();
+        stop();
+    }
+        
+    
+    
+    
+    
+    
+    
+    
+    
+/*
     private Dimension d;
     private List<Alien> aliens;
     private Player player;
@@ -46,8 +194,7 @@ public class Game extends JPanel {
     private Timer timer;
 
 
-    public Game() {
-
+    public Game(){
         initBoard();
         gameInit();
     }
@@ -65,23 +212,7 @@ public class Game extends JPanel {
         gameInit();
     }
 
-
-    private void gameInit() {
-
-        aliens = new ArrayList<>();
-
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 6; j++) {
-
-                Alien alien = new Alien(Commons.ALIEN_INIT_X + 18 * j,
-                        Commons.ALIEN_INIT_Y + 18 * i);
-                aliens.add(alien);
-            }
-        }
-
-        player = new Player();
-        shot = new Shot();
-    }
+    
 
     private void drawAliens(Graphics g) {
 
@@ -377,4 +508,7 @@ public class Game extends JPanel {
             }
         }
     }
+*/
+    
+    
 }
