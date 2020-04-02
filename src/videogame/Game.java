@@ -70,7 +70,7 @@ public class Game implements Runnable {
         Assets.init();
         
         //Initialize the Player
-        player = new Player(Commons.BOARD_WIDTH/2,Commons.BOARD_HEIGHT -20, 1, Commons.PLAYER_WIDTH,Commons.PLAYER_HEIGHT,this);
+        player = new Player(Commons.BOARD_WIDTH/2,Commons.BOARD_HEIGHT -20, 0, Commons.PLAYER_WIDTH,Commons.PLAYER_HEIGHT,this);
 
         //Initialize value for Aliens Array
         aliens = new ArrayList<>();
@@ -94,7 +94,8 @@ public class Game implements Runnable {
    
         //Ticks the KeyManager to have the updated keys.
         keyManager.tick();
-
+        if(keyManager.right)
+            System.out.println("fsd");
         //Check if user wants to Load game
         if (keyManager.load) {
             keyManager.release(KeyEvent.VK_C);

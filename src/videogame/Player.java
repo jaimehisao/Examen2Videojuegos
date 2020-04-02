@@ -33,6 +33,7 @@ public class Player extends Item {
         
         dx = 0;
         isAlive = true;
+        
     }
     
     //New - Considers direction
@@ -40,9 +41,9 @@ public class Player extends Item {
         super(x, y, width, height);
         this.direction = direction;
         this.game = game;
-        this.dx = 2;
+        this.dx = 1;
         isAlive = true;
-        shot = new Shot(x, y, width, height, this, game);
+        shot = new Shot(x, y, 2, 10, this, game);
     }
   
     @Override
@@ -52,7 +53,7 @@ public class Player extends Item {
         
         if (game.getKeyManager().right) {
            setX(this.x+dx);
-          
+           System.out.println("sa");
         }
         if (game.getKeyManager().left) {
            setX(this.x-dx);
@@ -62,7 +63,6 @@ public class Player extends Item {
            shot.shoot(this.x, this.y);
          
         }
-    
         // reset x position and y position if colision
         if (getX() + 20 >= game.getWidth()) {
             setX(game.getWidth() - 20);

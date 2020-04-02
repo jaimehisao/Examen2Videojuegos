@@ -18,7 +18,7 @@ public class Shot extends Item {
     public Shot(int x, int y, int width, int height, Item item, Game game) {
         super(x, y, width, height);
         this.item = item;
-        this.isShot = false;
+        this.isShot = true;
         this.game = game;
     }
 
@@ -26,7 +26,7 @@ public class Shot extends Item {
     public void tick() {
         //We check if the shot is fired, if so, we tick, else, nothing.
         if (isShot) {
-            setY(y + 2);
+            setY(y -2);
         } else {
             setX(game.getPlayer().getX() + 6);
             setY(game.getPlayer().getY());
