@@ -1,7 +1,8 @@
 package videogame;
 
 /**
- *
+ * Alien Class
+ * This Class Extends Item
  * @author Jaime Hisao & Rodrigo Casale
  */
 import java.awt.Graphics;
@@ -85,6 +86,7 @@ public class Alien extends Item {
     }
 
     /**
+     * Returns Alien Status
      * @author Jaime Hisao & Rodrigo Casale
      * @return returns the Status of the Alien, int value: 1 = alive, 2 = explosion, 3 = gone
      */
@@ -93,6 +95,7 @@ public class Alien extends Item {
     }
 
     /**
+     * Returns Alien visibility
      * @author Jaime Hisao & Rodrigo Casale
      * @return returns wether the Alien is visible or not.
      */
@@ -102,8 +105,13 @@ public class Alien extends Item {
     }
     
     /**
+<<<<<<< HEAD
      * @author Jaime Hisao & Rodrigo Casale
      * @return returns the Bomb object 
+=======
+     * Returns the Bomb object from an Alien instance
+     * @return Bomb Object
+>>>>>>> 9387f20d13194012c240c512a3b68619bb816e39
      */
     public Bomb getBomb(){
         return this.bomb;
