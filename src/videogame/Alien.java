@@ -105,16 +105,16 @@ public class Alien extends Item {
     }
     
     /**
-<<<<<<< HEAD
+     * Returns the Bomb object from an Alien instance
      * @author Jaime Hisao & Rodrigo Casale
      * @return returns the Bomb object 
-=======
-     * Returns the Bomb object from an Alien instance
-     * @return Bomb Object
->>>>>>> 9387f20d13194012c240c512a3b68619bb816e39
      */
     public Bomb getBomb(){
         return this.bomb;
+    }
+    
+    public int getDirection(){
+        return direction;
     }
     
     /**

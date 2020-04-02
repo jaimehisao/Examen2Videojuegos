@@ -83,36 +83,16 @@ public class Game implements Runnable {
             //Writes Player Data
             wrt.print(player.getX() + " " + player.getY() + " ");
             
-            
-            
-            
-            
-            
-            
-            
-           
-            wrt.print(enemiesList.size() + " " + friendliesList.size() + " ");
-
-            //Writes the X and Y of each Enemy
-            for (Enemy enemyW : enemiesList) {
-                wrt.print(enemyW.getX() + " " + enemyW.getY() + " ");
+            //Write Alien & Bomb Data - # of aliens, x, y, direction, bombX, bombY, bombSpeed
+            wrt.print(aliens.size() + " ");
+            for(Alien alien: aliens){
+                wrt.print(alien.getX() + " " + alien.getY() + " " + 
+                        alien.getDirection() + " " + alien.getBomb().getX() 
+                        + " " + alien.getBomb().getY() + " " + 
+                        alien.getBomb().getSpeed() + " ");
             }
-
-            //Writes the X and Y of each Friendly
-            for (Friends friendW : friendliesList) {
-                wrt.print(friendW.getX() + " " + friendW.getY() + " ");
-            }
-
-           
-
             //Closes the Writer.
             wrt.close();
-
-            /*
-        Los archivos son guardados con la siguiente estructura.
-        vidas score estatusPausado malosCargados buenosCargados 
-        x0 y0 ... xn yn malos x0 y0 .. xn yn buenos xJugador yJugador dirJugadorX dirJugadorY
-             */
         } catch (IOException e) {
             System.out.println("No se encontro el archivo y no se pudo guardar!");
         }
