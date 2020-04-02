@@ -93,6 +93,11 @@ public class Game implements Runnable {
     }
 
     private void tick() {
+        
+        //Tick the Player
+        player.tick();
+        
+        
    
         //Ticks the KeyManager to have the updated keys.
         keyManager.tick();
@@ -115,8 +120,7 @@ public class Game implements Runnable {
             //message = "Game won!";
         }
 
-        //Tick the Player
-        player.tick();
+        
 
      
         //Tick the Shot
@@ -191,6 +195,10 @@ public class Game implements Runnable {
             }
         }
     }
+        
+        
+        
+   
 
     /**
      * Renders the Game and its components

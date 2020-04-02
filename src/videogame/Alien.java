@@ -17,14 +17,18 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class Alien extends Item {
-    //borrar
-    private boolean visible;
-    
-    private Bomb bomb;
-    private int direction;
     
     private Game game;
-    private boolean isAlive;
+    private int direction;
+    private Shot shot;
+    
+    //New constructor
+    public Alien(int x, int y, int width, int height, Game game, int direction) {
+        super(x, y, width, height);
+        this.game = game;
+        this.direction = direction;
+        shot = new Shot(x,y,3,3,2,1,game);
+    }
     
     public Alien(int x, int y, int width, int height, Game game) {
         super(x, y, width, height);
@@ -38,7 +42,6 @@ public class Alien extends Item {
         this.direction = direction;
     }
     public Bomb getBomb() {
-
         return bomb;
     }
 
