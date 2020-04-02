@@ -206,7 +206,7 @@ public class Game implements Runnable {
                 load(fileName);
             }catch(Exception e){
                 System.out.print("Unexpected Error...");
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
 
@@ -217,7 +217,7 @@ public class Game implements Runnable {
                 save(fileName);
             }catch(Exception e){
                  System.out.print("Unexpected Error...");
-                 e.printStackTrace();
+                 //e.printStackTrace();
             }
         }
         
