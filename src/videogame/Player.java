@@ -18,8 +18,7 @@ public class Player extends Item {
     
     private Game game;
     private int direction;
-    
-    
+    private Shot shot;
     
     //borrar
     private boolean visible;
@@ -31,9 +30,9 @@ public class Player extends Item {
     public Player(int x, int y, int width, int height, Game game) {
         super(x, y, width, height);
         this.game = game;
-        isAlive = true;
+        
         dx = 0;
-        visible = true;
+        isAlive = true;
     }
     
     //New - Considers direction
@@ -42,16 +41,25 @@ public class Player extends Item {
         this.direction = direction;
         this.game = game;
         this.dx = 2;
+        isAlive = true;
+        shot = new Shot(x, y, width, height, this, game);
     }
   
     @Override
     public void tick(){
+        
+        this.shot.tick();
+        
         if (game.getKeyManager().right) {
            setX(this.x+dx);
           
         }
         if (game.getKeyManager().left) {
            setX(this.x-dx);
+         
+        }
+        if (game.getKeyManager().space) {
+           shot.shoot(this.x, this.y);
          
         }
     
@@ -69,10 +77,8 @@ public class Player extends Item {
     @Override
     public void tick() {
         
-        System.out.println(this.game.getKeyManager().left);
-        if(this.game.getKeyManager().left){
+        if(this.game.getKeyManager().left)
             dx = -2;
-        }
         if(this.game.getKeyManager().right)
             dx = 2;
             
@@ -110,20 +116,10 @@ public class Player extends Item {
         this.isAlive = false;
     }
     public void render(Graphics g) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if(this.visible)
-=======
         if(isAlive){
->>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
-=======
-        if(isAlive)
->>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
-=======
-        if(isAlive)
->>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
             g.drawImage(Assets.player, getX(), getY(), getWidth(), getHeight(), null);
+            shot.render(g);
+        }
         /*
         else 
             g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);
