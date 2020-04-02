@@ -18,6 +18,7 @@ public class Bomb extends Item{
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         setDestroyed(true);
         
 =======
@@ -28,6 +29,9 @@ public class Bomb extends Item{
         this.isShot = false;
         this.game = game;
 >>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
+=======
+        //setDestroyed(true);
+>>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
 =======
         //setDestroyed(true);
 >>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
