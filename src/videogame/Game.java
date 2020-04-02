@@ -19,7 +19,7 @@ public class Game implements Runnable {
     private BufferStrategy bs;//Contains the display buffers
     private Graphics g; //Provides ability to paint objects
     private Display display; //To Display the game, duh!
-    private final KeyManager keyManager;
+    private KeyManager keyManager;
 
     //Game Information
     String title; //Title of the Game
@@ -89,13 +89,13 @@ public class Game implements Runnable {
 
     private void tick() {
         
+        keyManager.tick();
+        if(keyManager.left)
+            System.out.println("fsd");
         //Tick the Player
         player.tick();
    
         //Ticks the KeyManager to have the updated keys.
-        keyManager.tick();
-        if(keyManager.right)
-            System.out.println("fsd");
         //Check if user wants to Load game
         if (keyManager.load) {
             keyManager.release(KeyEvent.VK_C);
