@@ -90,8 +90,6 @@ public class Game implements Runnable {
     private void tick() {
         
         keyManager.tick();
-        if(keyManager.left)
-            System.out.println("fsd");
         //Tick the Player
         player.tick();
    
@@ -114,9 +112,12 @@ public class Game implements Runnable {
             //timer.stop();
             //message = "Game won!";
         }
-        
+        Shot shot = player.getShot();
         for(Alien alien : aliens){
             alien.tick();
+            if(shot.collision(alien)){
+                shot.setVisibility(false);
+            }
         }
 
         

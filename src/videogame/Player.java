@@ -62,7 +62,7 @@ public class Player extends Item {
            setX(this.x-dx);
          
         }
-        if (game.getKeyManager().space) {
+        if (game.getKeyManager().space && !shot.isVisible()) {
            shot.shoot(this.x, this.y);
          
         }
