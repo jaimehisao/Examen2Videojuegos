@@ -1,51 +1,53 @@
-/*
- *The bomb is for the Aliens
- */
 package videogame;
 
-import java.awt.Graphics;
+/*
+ * The Shot is for the player.
+ */
 
 /**
  *
- * @author rodrigocasale
+ * @author antoniomejorado
  */
-public class Bomb extends Item{
-    
-    private boolean destroyed;
+import java.awt.Graphics;
 
-    public Bomb(int x, int y, int width, int height) {
+public class Bomb extends Item {
+    
+    private boolean isShot; //Stores wether the shot has bien fired.
+    private Game game;
+    private Item item;
+    
+    public Bomb(int x, int y, int width, int height, Item item, Game game) {
         super(x, y, width, height);
+<<<<<<< HEAD
 <<<<<<< HEAD
         setDestroyed(true);
         
 =======
         //setDestroyed(true);
 >>>>>>> ea9f2cc8f5c701b1f130f63f43626e5e586770a5
+=======
+        this.item = item;
+        this.isShot = false;
+        this.game = game;
+>>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
     }
-
-
-    public void die(){
-        this.destroyed = true;
-    }
-    public void setDestroyed(boolean destroyed) {
-
-        this.destroyed = destroyed;
-    }
- 
-    public boolean isDestroyed() {
-
-        return destroyed;
-    }
-        
-    public void render(Graphics g) {
-        g.drawImage(Assets.bomb, getX(), getY(), getWidth(), getHeight(), null);
-    }
-
-    @Override
-    public void tick() {
-        this.y += 1;
-        if(this.y >= Commons.GROUND - this.height){
-            this.die();
+    
+    @Override 
+    public void tick(){
+        //We check if the shot is fired, if so, we tick, else, nothing.
+            if (isShot) {
+                setY(y+2);
+            } else {
+                setX(item.getX()+4);
+                setY(item.getY()+5);
+            }
+            if (y >= 290) {
+            isShot = false;
         }
     }
-}
+    
+    public void render(Graphics g){
+        //if(this.visible)
+            g.drawImage(Assets.shot, getX(), getY(), getWidth(), getHeight(), null);
+    } 
+    }

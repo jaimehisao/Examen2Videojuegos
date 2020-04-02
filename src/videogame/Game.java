@@ -11,10 +11,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
-
 
 public class Game implements Runnable {
 
@@ -73,7 +70,11 @@ public class Game implements Runnable {
         Assets.init();
         
         //Initialize the Player
+<<<<<<< HEAD
         player = new Player(Commons.BOARD_WIDTH/2,Commons.BOARD_HEIGHT-40, Commons.PLAYER_WIDTH,Commons.PLAYER_HEIGHT,this);
+=======
+        player = new Player(270,280, 1, getWidth(),getHeight(),this);
+>>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
 
         //Initialize value for Aliens Array
         aliens = new ArrayList<>();
@@ -81,13 +82,16 @@ public class Game implements Runnable {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
                 Alien alien = new Alien(Commons.ALIEN_INIT_X + 18 * j,
-                        Commons.ALIEN_INIT_Y + 18 * i, Commons.ALIEN_WIDTH, Commons.ALIEN_HEIGHT, this);
+                        Commons.ALIEN_INIT_Y + 18 * i, Commons.ALIEN_WIDTH, Commons.ALIEN_HEIGHT, this, 1);
                 aliens.add(alien);
             }
         }
         
+<<<<<<< HEAD
         shot = new Shot(player.getX(), player.getY(), 2, 10);
         
+=======
+>>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
         display.getJframe().addKeyListener(keyManager);
 
     }
@@ -96,8 +100,6 @@ public class Game implements Runnable {
         
         //Tick the Player
         player.tick();
-        
-        
    
         //Ticks the KeyManager to have the updated keys.
         keyManager.tick();
@@ -113,18 +115,27 @@ public class Game implements Runnable {
             keyManager.release(KeyEvent.VK_S);
             load(fileName);
         }
+        
         if (score == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
 
             running = false;
             //timer.stop();
             //message = "Game won!";
         }
+        
+        for(Alien alien : aliens){
+            alien.tick();
+        }
 
         
 
      
+<<<<<<< HEAD
         //Tick the Shot
         // shot
+=======
+        /*
+>>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
         if (shot.isVisible()) {
             shot.tick();
             for (Alien alien : aliens) {
@@ -194,6 +205,15 @@ public class Game implements Runnable {
                 bomb.tick();
             }
         }
+        */
+    }
+    
+    /**
+     * Method that returns the player object
+     * @return Returns the player object.
+     */
+    public Player getPlayer(){
+        return player;
     }
         
         
@@ -226,10 +246,7 @@ public class Game implements Runnable {
 
         for (Alien alien : aliens) {
             alien.render(g);
-            alien.getBomb().render(g);
         }
-        
-        shot.render(g);
 
         bs.show();
         g.dispose();
@@ -268,12 +285,10 @@ public class Game implements Runnable {
      * @author Jaime Hisao
      */
     public synchronized void start() {
-        System.out.println("TRHEAD CREATED1");
         if (!running) {
             running = true;
             thread = new Thread(this);
             thread.start();
-            System.out.print("THREAD CREATED2!");
         }
     }
 
@@ -283,7 +298,6 @@ public class Game implements Runnable {
      * @author Jaime Hisao
      */
     public synchronized void stop() {
-        System.out.println("THREAD STOPPED");
         if (running) {
             running = false;
             try {
