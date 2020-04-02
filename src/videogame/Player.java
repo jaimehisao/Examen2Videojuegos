@@ -72,6 +72,7 @@ public class Player extends Item {
             }
             if (game.getKeyManager().space && !shot.isVisible()) {
                shot.shoot(this.x, this.y);
+               pew();
 
             }
             // reset x position and y position if colision
@@ -84,7 +85,6 @@ public class Player extends Item {
         }
     }
    
-
     /**
      * @author Jaime Hisao & Rodrigo Casale
      * @return returns wether the player is alive or not
@@ -124,6 +124,14 @@ public class Player extends Item {
      */
     public int getLives(){
         return this.lives;
+    }
+    
+    public void explodeSound(){
+        Assets.explosionSC.play();
+    }
+    
+    public void pew(){
+        Assets.pew.play();
     }
     
     /**

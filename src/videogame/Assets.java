@@ -20,6 +20,9 @@ public class Assets {
     public static BufferedImage shot;
     public static BufferedImage bomb;
     
+    public static SoundClip pew;
+    public static SoundClip explosionSC;
+    
     public static void init(){
         player = ImageLoader.loadImage("/resources/player.png");
         explosion = ImageLoader.loadImage("/resources/explosion.png");
@@ -27,5 +30,8 @@ public class Assets {
         alien = ImageLoader.loadImage("/resources/alien.png");
         shot = ImageLoader.loadImage("/resources/shot.png");
         bomb = ImageLoader.loadImage("/resources/bomb.png");
+        
+        pew = new SoundClip("/sounds/pew.wav");
+        explosionSC = new SoundClip("/sounds/bomb.wav");
     }
 }

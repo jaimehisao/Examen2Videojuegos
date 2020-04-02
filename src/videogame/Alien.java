@@ -87,8 +87,13 @@ public class Alien extends Item {
             timer++;
             if(timer >= 100){
                 status = 3;
+                explodeSound();
             }
         }
+    }
+    
+    public void explodeSound(){
+        Assets.explosionSC.play();
     }
     
     /**
