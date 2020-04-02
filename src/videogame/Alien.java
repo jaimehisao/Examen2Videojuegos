@@ -37,7 +37,7 @@ public class Alien extends Item {
         timer = 0;
         
         generator = new Random();
-        bomb = new Bomb(x, y, 3, 3,this, game, generator.nextInt(2)+1);
+        bomb = new Bomb(x, y, 2, 6,this, game, generator.nextInt(2)+1);
     }
     
     /**
@@ -85,7 +85,7 @@ public class Alien extends Item {
         //si esta en explosion cuenta 100 segundos y cuando acabe cambia a estatus 3
         else if(status == 2){
             timer++;
-            if(timer >= 100){
+            if(timer >= 50){
                 status = 3;
                 explodeSound();
             }

@@ -8,6 +8,7 @@ package videogame;
  */
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
@@ -43,8 +44,11 @@ public class Game implements Runnable {
     //Objects contained in the Game
     private List<Alien> aliens;
     private Player player;
-    //private Shot shot;
 
+    private Shot shot;
+    private int gameStatus;
+    private String message;
+    
     /**
      * Game Constructor
      * @param title Title of the Game
@@ -63,6 +67,7 @@ public class Game implements Runnable {
         alienHits = 0;
         direction = 1;
         gamePaused = false;
+        gameStatus = 0;
     }
 
     /**
@@ -225,8 +230,28 @@ public class Game implements Runnable {
                 }
             }
 
+
             if (keyManager.q) {
                 aliens.get(0).die();
+            }
+        
+        
+        if (score == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
+
+            running = false;
+            //timer.stop();
+            //message = "Game won!";
+        }
+        
+        Shot shot = player.getShot();
+        for(Alien alien : aliens){
+            alien.tick();
+            //is there is a collision and the alien is alive
+            if(shot.collision(alien) && alien.getStatus() == 1){
+                shot.setVisibility(false);
+                alien.die();
+                this.hits++;
+
             }
 
             if (score == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
@@ -235,22 +260,17 @@ public class Game implements Runnable {
                 //timer.stop();
                 //message = "Game won!";
             }
-
-            Shot shot = player.getShot();
-
-            for (Alien alien : aliens) {
-                alien.tick();
-                //is there is a collision and the alien is alive
-                if (shot.collision(alien) && alien.getStatus() == 1) {
-                    shot.setVisibility(false);
-                    alien.die();
-                }
-                if (alien.getBomb().collision(player) && player.isAlive()) {
-                    player.die();
-                }
-            }
+        }
+        if(this.hits == Commons.NUMBER_OF_ALIENS_TO_DESTROY || keyManager.a){
+            this.gameStatus = 1;
+            this.message = "You won!";
+        }
+        if(this.player.getLives() == 0){
+            this.gameStatus = 1;
+            this.message = "Game Over";
 
         }
+    }
     }
 
     /**
@@ -280,10 +300,20 @@ public class Game implements Runnable {
             //g.drawImage(Assets.background, 0, 0, width, height, null);
 
             //Show Text for hits, lives and score
+
             g.setColor(Color.red);
 
             //Render Individual Game Components
             player.render(g);
+
+
+            g.setColor(Color.white);
+            g.setFont(new Font("Helvetica", Font.PLAIN, 30));
+            g.drawString("Lives: " + this.player.getLives(), 0, 30);
+            g.drawString("Hits: " + this.hits, 0, 60);
+            //Render Individual Game Components
+            player.render(g);
+
 
             for (Alien alien : aliens) {
                 alien.render(g);
@@ -307,6 +337,12 @@ public class Game implements Runnable {
             display.getCanvas().createBufferStrategy(3);
         } else {
             g = bs.getDrawGraphics();
+
+            g.setColor(Color.black);
+            g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+
+
+
             g.setColor(Color.black);
             g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
 
@@ -314,6 +350,7 @@ public class Game implements Runnable {
             g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
             g.setColor(Color.white);
             g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+
 
             Font small = new Font("Helvetica", Font.BOLD, 14);
             //FontMetrics fontMetrics;
@@ -327,7 +364,22 @@ public class Game implements Runnable {
             g.dispose();
         }
         //stopSound();
-    }
+
+
+            Font small = new Font("Helvetica", Font.BOLD, 14);
+            FontMetrics fontMetrics = g.getFontMetrics(small);
+
+            g.setColor(Color.white);
+            g.setFont(small);
+            
+            g.drawString(this.message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(this.message)) / 2,
+                Commons.BOARD_WIDTH / 2);
+            bs.show();
+            g.dispose();
+        }
+            
+
+    
 
     /**
      * Starts the game with a new Thread for separate execution
@@ -388,15 +440,13 @@ public class Game implements Runnable {
             // if delta is positive we tick the game
             // tambien si el estatus del juego es 0, si no, enseñamos la pantalla que se acabo el juego
             if (delta >= 1) {
-                if (player.isAlive()) {
+                if(this.gameStatus == 0){
                     tick();
                     render();
-                    delta--;
-                } else {
-                    //tick();
-                    //gameOver();
-                    //delta--;
+                }else if(this.gameStatus == 1){
+                    gameOver();
                 }
+                delta--;
             }
         }
         //gameOver();

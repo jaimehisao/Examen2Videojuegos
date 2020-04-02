@@ -94,6 +94,6 @@ public class Bomb extends Item {
      */
     public void render(Graphics g){
         if(this.isVisible())
-            g.drawImage(Assets.shot, getX(), getY(), getWidth(), getHeight(), null);
+            g.drawImage(Assets.bomb, getX(), getY(), getWidth(), getHeight(), null);
     } 
 }
