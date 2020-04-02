@@ -78,12 +78,11 @@ public class Shot extends Item {
     }
     
     /**
-     * Render for Shot Object
-     * Renders the Shot object in screen
+     * Render for Shot Object if it's visible
      * @param g Graphics object used in Game Class
      */
     public void render(Graphics g) {
-        if(this.visible)
+        if(isVisible())
             g.drawImage(Assets.shot, getX(), getY(), getWidth(), getHeight(), null);
     }
 

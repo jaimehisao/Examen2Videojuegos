@@ -24,16 +24,19 @@ public class Player extends Item {
     private int dx;
     private boolean alive;
     
-    //OLD - Does not consider direction
-    public Player(int x, int y, int width, int height, Game game) {
-        super(x, y, width, height);
-        this.game = game;
-        
-        dx = 0;
-        alive = true;
-        
-    }
+    private int lives;
     
+    
+    /**
+     * Player Class Constructor
+     * @author Jaime Hisao & Rodrigo Casale
+     * @param x X Coordinate to create Alien
+     * @param y Y Coordinate to create Alien
+     * @param direction Direction of the Alien
+     * @param width Width of the Game
+     * @param height height of the Game
+     * @param game Game Object
+     */
     //New - Considers direction
     public Player(int x, int y, int direction, int width, int height, Game game) {
         super(x, y, width, height);
@@ -42,10 +45,22 @@ public class Player extends Item {
         this.dx = 1;
         alive = true;
         shot = new Shot(x, y, 2, 10, this, game);
+        
+        lives = 5;
     }
+    
+    /**
+     * @author Jaime Hisao & Rodrigo Casale
+     * @return returns the Shot object
+     */
     public Shot getShot(){
         return this.shot;
     }
+    
+    /**
+     * Ticks the Player Object
+     * @author Jaime Hisao & Rodrigo Casale
+     */
     @Override
     public void tick(){
         if(isAlive()){
@@ -73,13 +88,28 @@ public class Player extends Item {
     }
    
 
+    /**
+     * @author Jaime Hisao & Rodrigo Casale
+     * @return returns wether the player is alive or not
+     */
     public boolean isAlive(){
         return this.alive;
     }
     
+    /**
+     * Kills the Player
+     * @author Jaime Hisao & Rodrigo Casale
+     */
     public void die(){
         this.alive = false;
     }
+    
+    /**
+     * Render for the Player
+     * If is alive it renders the player if not it renders the explotion
+     * @author Jaime Hisao & Rodrigo Casale
+     * @param g Graphics Object used in Game Class
+     */
     public void render(Graphics g) {
         if(isAlive()){
             g.drawImage(Assets.player, getX(), getY(), getWidth(), getHeight(), null);
