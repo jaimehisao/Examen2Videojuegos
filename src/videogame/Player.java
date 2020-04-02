@@ -112,10 +112,14 @@ public class Player extends Item {
     public void render(Graphics g) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         if(this.visible)
 =======
         if(isAlive){
 >>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
+=======
+        if(isAlive)
+>>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
 =======
         if(isAlive)
 >>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality

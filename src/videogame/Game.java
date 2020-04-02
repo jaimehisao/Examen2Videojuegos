@@ -75,10 +75,14 @@ public class Game implements Runnable {
         //Initialize the Player
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         player = new Player(Commons.BOARD_WIDTH/2,Commons.BOARD_HEIGHT-40, Commons.PLAYER_WIDTH,Commons.PLAYER_HEIGHT,this);
 =======
         player = new Player(270,280, 1, getWidth(),getHeight(),this);
 >>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
+=======
+        player = new Player(270,280, getWidth(),getHeight(),this);
+>>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
 =======
         player = new Player(270,280, getWidth(),getHeight(),this);
 >>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
@@ -96,10 +100,15 @@ public class Game implements Runnable {
         
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         shot = new Shot(player.getX(), player.getY(), 2, 10);
         
 =======
 >>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
+=======
+        shot = new Shot(10, player.getY(), 2, 10);
+        
+>>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
 =======
         shot = new Shot(10, player.getY(), 2, 10);
         
@@ -141,11 +150,17 @@ public class Game implements Runnable {
      
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         //Tick the Shot
         // shot
 =======
         /*
 >>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
+=======
+        //Tick the Shot
+        // shot
+        shot.tick();
+>>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
 =======
         //Tick the Shot
         // shot

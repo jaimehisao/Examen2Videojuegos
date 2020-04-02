@@ -32,9 +32,15 @@ public class Alien extends Item {
     
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     public Alien(int x, int y, int width, int height, Game game) {
         super(x, y, width, height);
         bomb = new Bomb(x, y, 2, 10);
+=======
+    public Alien(int x, int y, int width, int height, Game game) {
+        super(x, y, width, height);
+        bomb = new Bomb(x, y, width, height);
+>>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
 =======
     public Alien(int x, int y, int width, int height, Game game) {
         super(x, y, width, height);
@@ -53,8 +59,11 @@ public class Alien extends Item {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
+=======
+>>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
 =======
 >>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
     @Override
