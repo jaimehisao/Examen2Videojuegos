@@ -51,7 +51,7 @@ public class Shot extends Item {
     }
     
     public void die(){
-        
+        visible = false;
     }
     
     }

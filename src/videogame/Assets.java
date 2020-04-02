@@ -22,7 +22,7 @@ public class Assets {
     
     public static void init(){
         player = ImageLoader.loadImage("/resources/player.png");
-        explosion = ImageLoader.loadImage("/resources/explosion.png");
+        explosion = ImageLoader.loadImage("/resources/alien.png");
         //background = ImageLoader.loadImage("/resources/background.png");
         alien = ImageLoader.loadImage("/resources/alien.png");
         shot = ImageLoader.loadImage("/resources/shot.png");
