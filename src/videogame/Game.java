@@ -8,6 +8,7 @@ package videogame;
  */
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
@@ -44,8 +45,8 @@ public class Game implements Runnable {
     private List<Alien> aliens;
     private Player player;
     private Shot shot;
-    
-    
+    private int gameStatus;
+    private String message;
     /**
      * Game Constructor
      * @param title Title of the Game
@@ -64,6 +65,7 @@ public class Game implements Runnable {
         alienHits = 0;
         direction = 1;
         gamePaused = false;
+        gameStatus = 0;
     }
 
     /**
@@ -243,7 +245,14 @@ public class Game implements Runnable {
                 player.die();
             }
         }
-
+        if(this.hits == Commons.NUMBER_OF_ALIENS_TO_DESTROY || keyManager.a){
+            this.gameStatus = 1;
+            this.message = "You won!";
+        }
+        if(this.player.getLives() == 0){
+            this.gameStatus = 1;
+            this.message = "Game Over";
+        }
     }
     
     /**
@@ -272,7 +281,7 @@ public class Game implements Runnable {
         
 
             //Show Text for hits, lives and score
-            g.setColor(Color.red);
+            g.setColor(Color.white);
             g.setFont(new Font("Helvetica", Font.PLAIN, 30));
             g.drawString("Lives: " + this.player.getLives(), 0, 30);
             g.drawString("Hits: " + this.hits, 0, 60);
@@ -292,25 +301,34 @@ public class Game implements Runnable {
      * Process game after loosing
      * @param g Graphics, the graphics object of the game
      */
-    private void gameOver(Graphics g) {
+    private void gameOver() {
 
-        g.setColor(Color.black);
-        g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+        bs = display.getCanvas().getBufferStrategy();
 
-        g.setColor(new Color(0, 32, 48));
-        g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
-        g.setColor(Color.white);
-        g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+        if (bs == null) {
+            display.getCanvas().createBufferStrategy(3);
+        } else {
+            g = bs.getDrawGraphics();
 
-        Font small = new Font("Helvetica", Font.BOLD, 14);
-        //FontMetrics fontMetrics;
-        //fontMetrics = fontMetrics.getFontMetrics(small);
+            g.setColor(Color.black);
+            g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+            g.setColor(new Color(0, 32, 48));
+            g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+            g.setColor(Color.white);
+            g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
 
-        g.setColor(Color.white);
-        g.setFont(small);
-        g.drawString("Game Over", 100 , 0);
-        //g.drawString("Game Over", (Commons.BOARD_WIDTH - fontMetrics.stringWidth("Game Over")) / 2,
-        //        Commons.BOARD_WIDTH / 2);
+            Font small = new Font("Helvetica", Font.BOLD, 14);
+            FontMetrics fontMetrics = g.getFontMetrics(small);
+
+            g.setColor(Color.white);
+            g.setFont(small);
+            
+            g.drawString(this.message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(this.message)) / 2,
+                Commons.BOARD_WIDTH / 2);
+            bs.show();
+            g.dispose();
+        }
+            
     }
 
     /**
@@ -371,10 +389,13 @@ public class Game implements Runnable {
             // if delta is positive we tick the game
             // tambien si el estatus del juego es 0, si no, enseñamos la pantalla que se acabo el juego
             if (delta >= 1) {
-                tick();
-                render();
+                if(this.gameStatus == 0){
+                    tick();
+                    render();
+                }else if(this.gameStatus == 1){
+                    gameOver();
+                }
                 delta--;
-            } else{
             }
         }
         //stop();
