@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *The bomb is for the Aliens
  */
 package videogame;
 
@@ -17,7 +15,7 @@ public class Bomb extends Item{
 
     public Bomb(int x, int y, int width, int height) {
         super(x, y, width, height);
-        setDestroyed(true);
+        //setDestroyed(true);
     }
 
 

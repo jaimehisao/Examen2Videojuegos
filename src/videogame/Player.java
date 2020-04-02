@@ -15,13 +15,19 @@ import javax.swing.ImageIcon;
 import java.awt.event.KeyEvent;
 
 public class Player extends Item {
+    
     private Game game;
+    private int direction;
+    
+    
+    
     //borrar
     private boolean visible;
     
     private int dx;
     private boolean isAlive;
     
+    //OLD - Does not consider direction
     public Player(int x, int y, int width, int height, Game game) {
         super(x, y, width, height);
         this.game = game;
@@ -29,8 +35,37 @@ public class Player extends Item {
         dx = 0;
         visible = true;
     }
+    
+    //New - Considers direction
+    public Player(int x, int y, int direction, int width, int height, Game game) {
+        super(x, y, width, height);
+        this.direction = direction;
+        this.game = game;
+        this.dx = 2;
+    }
   
+    @Override
+    public void tick(){
+        if (game.getKeyManager().right) {
+           setX(this.x+dx);
+          
+        }
+        if (game.getKeyManager().left) {
+           setX(this.x-dx);
+         
+        }
+    
+        // reset x position and y position if colision
+        if (getX() + 20 >= game.getWidth()) {
+            setX(game.getWidth() - 20);
+        }
+        else if (getX() <= 5) {
+            setX(5);
+        }
+    }
+   
 
+/*
     @Override
     public void tick() {
         
@@ -77,7 +112,8 @@ public class Player extends Item {
             dx = 0;
         }
     }
-    
+    */
+
     
     public boolean isVisible(){
         return this.visible;
@@ -89,7 +125,9 @@ public class Player extends Item {
     public void render(Graphics g) {
         if(isAlive)
             g.drawImage(Assets.player, getX(), getY(), getWidth(), getHeight(), null);
+        /*
         else 
             g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);
+*/
     }
 }
