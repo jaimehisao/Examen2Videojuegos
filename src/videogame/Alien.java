@@ -41,6 +41,29 @@ public class Alien extends Item {
     }
     
     /**
+     * Alien Class Constructor
+     * @author Jaime Hisao & Rodrigo Casale
+     * @param x X Coordinate to create Alien
+     * @param y Y Coordinate to create Alien
+     * @param width Width of the Game
+     * @param height height of the Game
+     * @param game Game Object
+     * @param direction Direction of the Alien
+     * @param bomb Bomb Object
+     */
+    public Alien(int x, int y, int width, int height, Game game, int direction,
+            Bomb bomb) {
+        super(x, y, width, height);
+        this.game = game;
+        this.direction = direction;
+        status = 1; 
+        timer = 0;
+        
+        generator = new Random();
+        this.bomb = bomb;
+    }
+    
+    /**
      * Ticks the Alien Object
      * @author Jaime Hisao & Rodrigo Casale
      */

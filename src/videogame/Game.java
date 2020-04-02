@@ -115,44 +115,37 @@ public class Game implements Runnable {
             //Using the values in the array, we set the game values.
             
             //Set the lives and score
-            ps.lives =Integer.parseInt(readArr[readData++]);
-            ps.setScore(Integer.parseInt(readArr[readData++]));
+            lives = Integer.parseInt(readArr[readData++]);
+            score = (Integer.parseInt(readArr[readData++]));
 
             //Set the paused status
             gamePaused = Integer.parseInt(readArr[readData++]) == 1;
             
-            //Set the # of loaded enemies and friendlies
-            int loadedEnemies = Integer.parseInt(readArr[readData++]);
-            int loadedFriendlies = Integer.parseInt(readArr[readData++]);
-
-            //Loads enemies with their X, Y coordinates.
-            LinkedList<Enemy> loadedEnemiesList = new LinkedList<>();
-            int num = loadedEnemies + readData;
-            for (int i = readData; i < num; i++) {
-                Enemy tmp = new Enemy(Integer.parseInt(readArr[readData++]),
-                        Integer.parseInt(readArr[readData++]), 1, 100, 100, this);
-                loadedEnemiesList.add(tmp);
-            }
-
-            //Loads friendlies with their X, Y coordinates.
-            LinkedList<Friends> loadedFriendliesList = new LinkedList<>();
-            num = loadedFriendlies + readData;
-            for (int i = readData; i < num; i++) {
-                Friends tmp = new Friends(Integer.parseInt(readArr[readData++]),
-                        Integer.parseInt(readArr[readData++]), 1, 100, 100, this);
-                loadedFriendliesList.add(tmp);
-            }
-
-            //Equals the game list to the loaded lists.
-            enemiesList = loadedEnemiesList;
-            friendliesList = loadedFriendliesList;
-
-            //Sets the X, Y, and Direction values for the player
+            //Read Data for Player
             player.setX(Integer.parseInt(readArr[readData++]));
             player.setY(Integer.parseInt(readArr[readData++]));
-            player.setDirectionX(Integer.parseInt(readArr[readData++]));
-            player.setDirectionY(Integer.parseInt(readArr[readData++]));
-
+            
+            //Get # of Aliens
+            int numberOfAliens = Integer.parseInt(readArr[readData++]);
+            int num = numberOfAliens+readData;
+            List<Alien> importedAliens = new ArrayList<Alien>();
+            for(int i = readData; i<num; i++){
+                Alien tmp = new Alien(Integer.parseInt(readArr[readData++]), 
+                        Integer.parseInt(readArr[readData++]),
+                Commons.ALIEN_WIDTH, Commons.ALIEN_HEIGHT, this, 
+                        Integer.parseInt(readArr[readData++]),
+                new Bomb(Integer.parseInt(readArr[readData++]), 
+                        Integer.parseInt(readArr[readData++]), 
+                        Commons.BOMB_HEIGHT, 
+                        Commons.BOMB_HEIGHT, null, this, 
+                        Integer.parseInt(readArr[readData++])));
+                tmp.getBomb().setAlien(tmp);
+                importedAliens.add(tmp);
+            }
+            
+            //Equal imported list to loaded list
+            aliens = importedAliens;
+            
             //Closes the reader resource.
             bReader.close();
 

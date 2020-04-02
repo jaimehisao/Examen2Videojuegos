@@ -24,7 +24,7 @@ public class Bomb extends Item {
      * @param y Y Coordinate for Shot
      * @param width Width of the Game
      * @param height Height of the Game
-     * @param Alien Alien Object
+     * @param alien Alien Object
      * @param game Current Game Object
      * @param speed The speed for shot
      */
@@ -51,6 +51,13 @@ public class Bomb extends Item {
      */
     public int getSpeed(){
         return speed;
+    }
+    
+    /**
+     * @return Int value for the speed
+     */
+    public void setAlien(Alien alien){
+        this.alien = alien;
     }
     
     /**
