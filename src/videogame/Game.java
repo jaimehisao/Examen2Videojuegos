@@ -1,7 +1,8 @@
 package videogame;
 
 /**
- * 
+ * Game Class
+ * Connects most of the code together.
  * @author Jaime Hisao w/antoniomejorado
  * @author Rodrigo Casale
  */
@@ -38,7 +39,12 @@ public class Game implements Runnable {
     private Player player;
     private Shot shot;
     
-
+    /**
+     * Game Constructor
+     * @param title Title of the Game
+     * @param width Width of the Game
+     * @param height Height of the Game
+     */
     public Game(String title, int width, int height) {
         this.title = title;
         this.width = width;
@@ -52,17 +58,24 @@ public class Game implements Runnable {
         direction = 1;
     }
 
+    /**
+     * Saves the Game to a TXT File
+     * @param fileName Filename and path of the TXT File
+     */
     private void save(String fileName) {
 
     }
 
+    /**
+     * Loads the Game from a TXT File
+     * @param fileName Filename and path of the TXT File
+     */
     private void load(String fileName) {
 
     }
 
     /**
      * Initializes the game with many Aliens, single player and shot.
-     *
      * @author Jaime Hisao based on Mejorado's Code
      */
     private void init() {
@@ -87,6 +100,11 @@ public class Game implements Runnable {
 
     }
 
+    /**
+     * Tick for Game
+     * Mostly calls other Ticks and handles the KeyManager
+     * @author Jaime Hisao & Rodrigo Casale
+     */
     private void tick() {
         
         keyManager.tick();
@@ -105,15 +123,18 @@ public class Game implements Runnable {
             keyManager.release(KeyEvent.VK_S);
             load(fileName);
         }
+        
         if (keyManager.q) {
             aliens.get(0).die();
         }
+        
         if (score == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
 
             running = false;
             //timer.stop();
             //message = "Game won!";
         }
+        
         Shot shot = player.getShot();
         for(Alien alien : aliens){
             alien.tick();
@@ -127,77 +148,6 @@ public class Game implements Runnable {
             }
         }
 
-        
-
-     
-        /*
-        if (shot.isVisible()) {
-            
-            for (Alien alien : aliens) {
-                if (alien.isVisible()) {
-                    if(shot.collision(alien)){
-                        alien.die();
-                        alienHits++;
-                        shot.die();
-                    }
-                }
-            }
-        }
-            if(keyManager.space){
-                shot.die();
-                shot = new Shot(player.getX(), player.getY(), 2, 10);
-            }
-
-        //Tick the Aliens
-        for (Alien alien : aliens) {
-            alien.tick();
-        }
-
-        Iterator<Alien> it = aliens.iterator();
-
-        while (it.hasNext()) {
-
-            Alien alien = it.next();
-
-            if (alien.isVisible()) {
-
-                int y = alien.getY();
-
-                if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
-                    //inGame = false;
-                    //message = "Invasion!";
-                }
-
-                //alien.setDirection(0-alien.getDirection());
-            }
-        }
-
-        // bombs
-        Random generator = new Random();
-
-        for (Alien alien : aliens) {
-
-            int shot = generator.nextInt(15);
-            Bomb bomb = alien.getBomb();
-
-            if (shot == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
-                bomb.setDestroyed(false);
-                bomb.setX(alien.getX());
-                bomb.setY(alien.getY());
-            }
-
-            if (player.isVisible() && !bomb.isDestroyed()) {
-                if(bomb.collision(player)){
-                    player.die();
-                    bomb.die();
-                }
-            }
-
-            if (!bomb.isDestroyed()) {
-                bomb.tick();
-            }
-        }
-        */
     }
     
     /**
@@ -207,15 +157,10 @@ public class Game implements Runnable {
     public Player getPlayer(){
         return player;
     }
-        
-        
-        
-   
 
     /**
      * Renders the Game and its components
-     *
-     * @author Jaime Hisao
+     * @author Jaime Hisao & Rodrigo Casale
      */
     private void render() {
         //Retrieves the BS from Display
@@ -247,7 +192,6 @@ public class Game implements Runnable {
 
     /**
      * Process game after loosing
-     *
      * @param g Graphics, the graphics object of the game
      */
     private void gameOver(Graphics g) {
@@ -273,8 +217,7 @@ public class Game implements Runnable {
 
     /**
      * Starts the game with a new Thread for separate execution
-     *
-     * @author Jaime Hisao
+     * @author Jaime Hisao & Rodrigo Casale
      */
     public synchronized void start() {
         if (!running) {
@@ -286,8 +229,7 @@ public class Game implements Runnable {
 
     /**
      * Stops the thread process.
-     *
-     * @author Jaime Hisao
+     * @author Jaime Hisao & Rodrigo Casale
      */
     public synchronized void stop() {
         if (running) {
@@ -302,7 +244,9 @@ public class Game implements Runnable {
     }
 
     /**
-     *
+     * run
+     * Runs the game and calls the Tick and Render, part of Runnable Interface-
+     * @author Jaime Hisao & Rodrigo Casale
      */
     @Override
     public void run() {
@@ -336,330 +280,59 @@ public class Game implements Runnable {
         }
         //stop();
     }
+    
+    /**
+     * Returns the KeyManager
+     * @return KeyManager Object
+     */
     public KeyManager getKeyManager(){
         return this.keyManager;
     }
-    /*
-    private Dimension d;
-    private List<Alien> aliens;
-    private Player player;
-    private Shot shot;
-
-    private int direction = -1;
-    private int deaths = 0;
-
-    private boolean inGame = true;
-
-    private String message = "Game Over";
-
-    private Timer timer;
-
-
-    public Game(){
-        initBoard();
-        gameInit();
-    }
-
-    private void initBoard() {
-
-        addKeyListener(new TAdapter());
-        setFocusable(true);
-        d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
-        setBackground(Color.black);
-
-        timer = new Timer(Commons.DELAY, new GameCycle());
-        timer.start();
-
-        gameInit();
-    }
-
-
-
-    private void drawAliens(Graphics g) {
-
-        for (Alien alien : aliens) {
-
-            if (alien.isVisible()) {
-
-                g.drawImage(alien.getImage(), alien.getX(), alien.getY(), this);
-            }
-
-            if (alien.isDying()) {
-
-                alien.die();
-            }
-        }
-    }
-
-    private void drawPlayer(Graphics g) {
-
-        if (player.isVisible()) {
-
-            g.drawImage(player.getImage(), player.getX(), player.getY(), this);
-        }
-
-        if (player.isDying()) {
-
-            player.die();
-            inGame = false;
-        }
-    }
-
-    private void drawShot(Graphics g) {
-
-        if (shot.isVisible()) {
-
-            g.drawImage(shot.getImage(), shot.getX(), shot.getY(), this);
-        }
-    }
-
-    private void drawBombing(Graphics g) {
-
-        for (Alien a : aliens) {
-
-            Alien.Bomb b = a.getBomb();
-
-            if (!b.isDestroyed()) {
-
-                g.drawImage(b.getImage(), b.getX(), b.getY(), this);
-            }
-        }
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        doDrawing(g);
-    }
-
-    private void doDrawing(Graphics g) {
-
-        g.setColor(Color.black);
-        g.fillRect(0, 0, d.width, d.height);
-        g.setColor(Color.green);
-
-        if (inGame) {
-
-            g.drawLine(0, Commons.GROUND,
-                    Commons.BOARD_WIDTH, Commons.GROUND);
-
-            drawAliens(g);
-            drawPlayer(g);
-            drawShot(g);
-            drawBombing(g);
-
-        } else {
-
-            if (timer.isRunning()) {
-                timer.stop();
-            }
-
-            gameOver(g);
-        }
-
-        Toolkit.getDefaultToolkit().sync();
-    }
-
-
-
-    private void update() {
-
-        if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
-
-            inGame = false;
-            timer.stop();
-            message = "Game won!";
-        }
-
-        // player
-        player.act();
-
-        // shot
-        if (shot.isVisible()) {
-
-            int shotX = shot.getX();
-            int shotY = shot.getY();
-
-            for (Alien alien : aliens) {
-
-                int alienX = alien.getX();
-                int alienY = alien.getY();
-
-                if (alien.isVisible() && shot.isVisible()) {
-                    if (shotX >= (alienX)
-                            && shotX <= (alienX + Commons.ALIEN_WIDTH)
-                            && shotY >= (alienY)
-                            && shotY <= (alienY + Commons.ALIEN_HEIGHT)) {
-
-                        alien.setImage(alien.loadImage("/resources/explosion.png"));
-                        alien.setDying(true);
-                        deaths++;
-                        shot.die();
-                    }
-                }
-            }
-
-            int y = shot.getY();
-            y -= 4;
-
-            if (y < 0) {
-                shot.die();
-            } else {
-                shot.setY(y);
-            }
-        }
-
-        // aliens
-
-        for (Alien alien : aliens) {
-            alien.tick();
-        }
-
-        Iterator<Alien> it = aliens.iterator();
-
-        while (it.hasNext()) {
-
-            Alien alien = it.next();
-
-            if (alien.isVisible()) {
-
-                int y = alien.getY();
-
-                if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
-                    inGame = false;
-                    message = "Invasion!";
-                }
-
-                alien.setDirection(direction);
-            }
-        }
-
-        // bombs
-        Random generator = new Random();
-
-        for (Alien alien : aliens) {
-
-            int shot = generator.nextInt(15);
-            Bomb bomb = alien.getBomb();
-
-            if (shot == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
-
-                bomb.setDestroyed(false);
-                bomb.setX(alien.getX());
-                bomb.setY(alien.getY());
-            }
-
-            int bombX = bomb.getX();
-            int bombY = bomb.getY();
-            int playerX = player.getX();
-            int playerY = player.getY();
-
-            if (player.isVisible() && !bomb.isDestroyed()) {
-                
-                if(bomb.collision(player)){
-                    
-                    player.die();
-                    bomb.setDestroyed(true);
-                }
-                if (bombX >= (playerX)
-                        && bombX <= (playerX + Commons.PLAYER_WIDTH)
-                        && bombY >= (playerY)
-                        && bombY <= (playerY + Commons.PLAYER_HEIGHT)) {
-                    //nada
-                }
-            }
-
-            if (!bomb.isDestroyed()) {
-
-                bomb.setY(bomb.getY() + 1);
-
-                if (bomb.getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) {
-
-                    bomb.setDestroyed(true);
-                }
-            }
-        }
-    }
-
    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private class TAdapter extends KeyAdapter {
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-
-            player.keyReleased(e);
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-
-            player.keyPressed(e);
-
-            int x = player.getX();
-            int y = player.getY();
-
-            int key = e.getKeyCode();
-
-            if (key == KeyEvent.VK_SPACE) {
-
-                if (inGame) {
-
-                    if (!shot.isVisible()) {
-
-                        shot = new Shot(x, y);
-                    }
-                }
-            }
-        }
-    }
+    /**
+     * Get Title of the Game
+     * @return Title of the Game
      */
-
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Set the Title of the Game
+     * @param title Title of the Game
+     */
     public void setTitle(String title) {
         this.title = title;
     }
-
+    
+    /**
+     * Get Width of the Game
+     * @return width of the Game
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Set the width
+     * @param width Width of the Game
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Get the Height
+     * @return Height of the Game
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Sets the Height
+     * @param height Height of the Game
+     */
     public void setHeight(int height) {
         this.height = height;
     }
