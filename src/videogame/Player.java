@@ -18,7 +18,8 @@ public class Player extends Item {
     
     private Game game;
     private int direction;
-    private Shot shot;
+    
+    
     
     //borrar
     private boolean visible;
@@ -41,15 +42,10 @@ public class Player extends Item {
         this.direction = direction;
         this.game = game;
         this.dx = 2;
-        
-        shot = new Shot(x, y, width, height, this, game);
     }
   
     @Override
     public void tick(){
-        
-        this.shot.tick();
-        
         if (game.getKeyManager().right) {
            setX(this.x+dx);
           
@@ -115,13 +111,15 @@ public class Player extends Item {
     }
     public void render(Graphics g) {
 <<<<<<< HEAD
+<<<<<<< HEAD
         if(this.visible)
 =======
         if(isAlive){
 >>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
+=======
+        if(isAlive)
+>>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
             g.drawImage(Assets.player, getX(), getY(), getWidth(), getHeight(), null);
-            shot.render(g);
-        }
         /*
         else 
             g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);

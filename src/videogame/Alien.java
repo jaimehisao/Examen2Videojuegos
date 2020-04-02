@@ -20,20 +20,26 @@ public class Alien extends Item {
     
     private Game game;
     private int direction;
-    private Bomb bomb;
+    private Shot shot;
     
     //New constructor
     public Alien(int x, int y, int width, int height, Game game, int direction) {
         super(x, y, width, height);
         this.game = game;
         this.direction = direction;
-        bomb = new Bomb(x, y, 3, 3,this,game);
+        shot = new Shot(x,y,3,3,2,1,game);
     }
     
+<<<<<<< HEAD
 <<<<<<< HEAD
     public Alien(int x, int y, int width, int height, Game game) {
         super(x, y, width, height);
         bomb = new Bomb(x, y, 2, 10);
+=======
+    public Alien(int x, int y, int width, int height, Game game) {
+        super(x, y, width, height);
+        bomb = new Bomb(x, y, width, height);
+>>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
         this.direction = 1;
         this.game = game;
         this.visible = true;
@@ -46,8 +52,11 @@ public class Alien extends Item {
         return bomb;
     }
 
+<<<<<<< HEAD
 =======
 >>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
+=======
+>>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
     @Override
     public void tick() {
         //could it work??
@@ -61,28 +70,19 @@ public class Alien extends Item {
         }
         this.x += direction;
     }
-    
-    public void setDirection(int direction){
-        this.direction = direction;
-    }
-
-   
 
     public boolean isVisible(){
-        //return this.visible;
-        return false;
+        return this.visible;
     }
-    
     public void die(){
-        //this.isAlive = false;
+        this.isAlive = false;
     }
     @Override
     public void render(Graphics g) {
-        //if(isAlive)
+        if(isAlive)
             g.drawImage(Assets.alien, getX(), getY(), getWidth(), getHeight(), null);
-            bomb.render(g);
-        //else
-        //    g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);
+        else
+            g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);
 
     }
 }
