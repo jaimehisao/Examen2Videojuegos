@@ -86,11 +86,10 @@ public class Game implements Runnable {
             }
         }
         
-        
+        shot = new Shot(10, player.getY(), 2, 10);
         
         display.getJframe().addKeyListener(keyManager);
 
-        shot = new Shot(10, 20, getWidth(), getHeight());
     }
 
     private void tick() {
@@ -109,7 +108,6 @@ public class Game implements Runnable {
             keyManager.release(KeyEvent.VK_S);
             load(fileName);
         }
-
         if (score == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
 
             running = false;
@@ -120,10 +118,12 @@ public class Game implements Runnable {
         //Tick the Player
         player.tick();
 
+     
         //Tick the Shot
-        shot.tick();
         // shot
+        shot.tick();
         if (shot.isVisible()) {
+            
             for (Alien alien : aliens) {
                 if (alien.isVisible()) {
                     if(shot.collision(alien)){
@@ -134,6 +134,10 @@ public class Game implements Runnable {
                 }
             }
         }
+            if(keyManager.space){
+                shot.die();
+                shot = new Shot(player.getX(), player.getY(), 2, 10);
+            }
 
         //Tick the Aliens
         for (Alien alien : aliens) {

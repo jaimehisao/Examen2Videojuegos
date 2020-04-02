@@ -47,22 +47,7 @@ public class Player extends Item {
         if (x >= Commons.BOARD_WIDTH - 2 * width) 
             x = Commons.BOARD_WIDTH - 2 * width;
     }
-
-    public void keyPressed(KeyEvent e) {
-
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_LEFT) {
-
-            dx = -2;
-        }
-
-        if (key == KeyEvent.VK_RIGHT) {
-
-            dx = 2;
-        }
-    }
-
+    
     public void keyReleased(KeyEvent e) {
 
         int key = e.getKeyCode();

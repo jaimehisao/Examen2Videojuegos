@@ -38,7 +38,7 @@ public class Shot extends Item {
             g.drawImage(Assets.shot, getX(), getY(), getWidth(), getHeight(), null);
     }
     public void die(){
-        
+        visible = false;
     }
     @Override
     public void tick() {
