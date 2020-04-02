@@ -45,6 +45,7 @@ public class Game implements Runnable {
     private Player player;
     private Shot shot;
     
+    
     /**
      * Game Constructor
      * @param title Title of the Game
@@ -236,6 +237,7 @@ public class Game implements Runnable {
             if(shot.collision(alien) && alien.getStatus() == 1){
                 shot.setVisibility(false);
                 alien.die();
+                this.hits++;
             }
             if(alien.getBomb().collision(player) && player.isAlive()){
                 player.die();
@@ -273,6 +275,7 @@ public class Game implements Runnable {
             g.setColor(Color.red);
             g.setFont(new Font("Helvetica", Font.PLAIN, 30));
             g.drawString("Lives: " + this.player.getLives(), 0, 30);
+            g.drawString("Hits: " + this.hits, 0, 60);
             //Render Individual Game Components
             player.render(g);
 
