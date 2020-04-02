@@ -11,7 +11,13 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Game implements Runnable {
@@ -31,6 +37,7 @@ public class Game implements Runnable {
 
     //Game Data & Score Keeping
     int score, lives, hits, alienHits;
+    boolean gamePaused;
     
     int direction;
 
@@ -56,22 +63,130 @@ public class Game implements Runnable {
         hits = 0;
         alienHits = 0;
         direction = 1;
+        gamePaused = false;
     }
 
     /**
      * Saves the Game to a TXT File
      * @param fileName Filename and path of the TXT File
      */
-    private void save(String fileName) {
+    private void save(String path) {
+        try {
+            //Declares PrintWriter object, to write to file
+            PrintWriter wrt = new PrintWriter(new FileWriter(fileName));
 
+            //Check wether the game is paused or not
+            int isPaused = (gamePaused ? 1 : 0);
+            //Writes lives, score, isPaused
+            wrt.print(lives + " " + score + " " + isPaused + " ");
+            
+            //Writes Player Data
+            wrt.print(player.getX() + " " + player.getY() + " ");
+            
+            
+            
+            
+            
+            
+            
+            
+           
+            wrt.print(enemiesList.size() + " " + friendliesList.size() + " ");
+
+            //Writes the X and Y of each Enemy
+            for (Enemy enemyW : enemiesList) {
+                wrt.print(enemyW.getX() + " " + enemyW.getY() + " ");
+            }
+
+            //Writes the X and Y of each Friendly
+            for (Friends friendW : friendliesList) {
+                wrt.print(friendW.getX() + " " + friendW.getY() + " ");
+            }
+
+           
+
+            //Closes the Writer.
+            wrt.close();
+
+            /*
+        Los archivos son guardados con la siguiente estructura.
+        vidas score estatusPausado malosCargados buenosCargados 
+        x0 y0 ... xn yn malos x0 y0 .. xn yn buenos xJugador yJugador dirJugadorX dirJugadorY
+             */
+        } catch (IOException e) {
+            System.out.println("No se encontro el archivo y no se pudo guardar!");
+        }
+
+        System.out.println("Juego Guardado!");
     }
 
     /**
      * Loads the Game from a TXT File
      * @param fileName Filename and path of the TXT File
      */
-    private void load(String fileName) {
+    private void load(String path) {
+        try {
+            //Opens the file
+            BufferedReader bReader = new BufferedReader(new FileReader(path));
+            String read = bReader.readLine(); //Reads the file
+            String readArr[] = read.split(" "); //Divides it into an array
+            int readData = 0; //Var to go over the array.
 
+            //Using the values in the array, we set the game values.
+            
+            //Set the lives and score
+            ps.lives =Integer.parseInt(readArr[readData++]);
+            ps.setScore(Integer.parseInt(readArr[readData++]));
+
+            //Set the paused status
+            gamePaused = Integer.parseInt(readArr[readData++]) == 1;
+            
+            //Set the # of loaded enemies and friendlies
+            int loadedEnemies = Integer.parseInt(readArr[readData++]);
+            int loadedFriendlies = Integer.parseInt(readArr[readData++]);
+
+            //Loads enemies with their X, Y coordinates.
+            LinkedList<Enemy> loadedEnemiesList = new LinkedList<>();
+            int num = loadedEnemies + readData;
+            for (int i = readData; i < num; i++) {
+                Enemy tmp = new Enemy(Integer.parseInt(readArr[readData++]),
+                        Integer.parseInt(readArr[readData++]), 1, 100, 100, this);
+                loadedEnemiesList.add(tmp);
+            }
+
+            //Loads friendlies with their X, Y coordinates.
+            LinkedList<Friends> loadedFriendliesList = new LinkedList<>();
+            num = loadedFriendlies + readData;
+            for (int i = readData; i < num; i++) {
+                Friends tmp = new Friends(Integer.parseInt(readArr[readData++]),
+                        Integer.parseInt(readArr[readData++]), 1, 100, 100, this);
+                loadedFriendliesList.add(tmp);
+            }
+
+            //Equals the game list to the loaded lists.
+            enemiesList = loadedEnemiesList;
+            friendliesList = loadedFriendliesList;
+
+            //Sets the X, Y, and Direction values for the player
+            player.setX(Integer.parseInt(readArr[readData++]));
+            player.setY(Integer.parseInt(readArr[readData++]));
+            player.setDirectionX(Integer.parseInt(readArr[readData++]));
+            player.setDirectionY(Integer.parseInt(readArr[readData++]));
+
+            //Closes the reader resource.
+            bReader.close();
+
+        } catch (IOException e) {
+            System.out.println("No se encontro el archivo, entonces no podemos cargar el juego");
+        }
+
+        System.out.println("Juego Cargado!");
+
+        /*
+        Los archivos son guardados con la siguiente estructura.
+        vidas score estatusPausado malosCargados buenosCargados 
+        x0 y0 ... xn yn malos x0 y0 .. xn yn buenos xJugador yJugador dirJugadorX dirJugadorY
+         */
     }
 
     /**
