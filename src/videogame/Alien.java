@@ -5,6 +5,7 @@ package videogame;
  * @author Jaime Hisao & Rodrigo Casale
  */
 import java.awt.Graphics;
+import java.util.Random;
 
 public class Alien extends Item {
     
@@ -15,6 +16,7 @@ public class Alien extends Item {
     
     private int status; // 1 = alive, 2 = explotion, 3 = gone
     private int timer;
+    Random generator;
     
     /**
      * Alien Class Constructor
@@ -31,8 +33,10 @@ public class Alien extends Item {
         this.game = game;
         this.direction = direction;
         status = 1; 
-        bomb = new Bomb(x, y, 3, 3,this,game);
         timer = 0;
+        
+        generator = new Random();
+        bomb = new Bomb(x, y, 3, 3,this, game, generator.nextInt(2)+1);
     }
     
     /**
@@ -95,6 +99,10 @@ public class Alien extends Item {
     public boolean isVisible(){
         //return this.visible;
         return false;
+    }
+    
+    public Bomb getBomb(){
+        return this.bomb;
     }
     
     /**

@@ -70,7 +70,7 @@ public class Game implements Runnable {
         Assets.init();
         
         //Initialize the Player
-        player = new Player(Commons.BOARD_WIDTH/2,Commons.BOARD_HEIGHT -20, 0, Commons.PLAYER_WIDTH,Commons.PLAYER_HEIGHT,this);
+        player = new Player(Commons.BOARD_WIDTH/2,290, 0, Commons.PLAYER_WIDTH,Commons.PLAYER_HEIGHT,this);
 
         //Initialize value for Aliens Array
         aliens = new ArrayList<>();
@@ -121,6 +121,9 @@ public class Game implements Runnable {
             if(shot.collision(alien) && alien.getStatus() == 1){
                 shot.setVisibility(false);
                 alien.die();
+            }
+            if(alien.getBomb().collision(player) && player.isAlive()){
+                player.die();
             }
         }
 
