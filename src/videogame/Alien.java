@@ -20,31 +20,16 @@ public class Alien extends Item {
     
     private Game game;
     private int direction;
-    private Shot shot;
+    private Bomb bomb;
     
     //New constructor
     public Alien(int x, int y, int width, int height, Game game, int direction) {
         super(x, y, width, height);
         this.game = game;
         this.direction = direction;
-        shot = new Shot(x,y,3,3,2,1,game);
+        bomb = new Bomb(x, y, 3, 3,this,game);
     }
     
-    public Alien(int x, int y, int width, int height, Game game) {
-        super(x, y, width, height);
-        bomb = new Bomb(x, y, width, height);
-        this.direction = 1;
-        this.game = game;
-        this.visible = true;
-        this.isAlive = true;
-    }
-    public void setDirection(int direction){
-        this.direction = direction;
-    }
-    public Bomb getBomb() {
-        return bomb;
-    }
-
     @Override
     public void tick() {
         //could it work??
@@ -58,19 +43,28 @@ public class Alien extends Item {
         }
         this.x += direction;
     }
+    
+    public void setDirection(int direction){
+        this.direction = direction;
+    }
+
+   
 
     public boolean isVisible(){
-        return this.visible;
+        //return this.visible;
+        return false;
     }
+    
     public void die(){
-        this.isAlive = false;
+        //this.isAlive = false;
     }
     @Override
     public void render(Graphics g) {
-        if(isAlive)
+        //if(isAlive)
             g.drawImage(Assets.alien, getX(), getY(), getWidth(), getHeight(), null);
-        else
-            g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);
+            bomb.render(g);
+        //else
+        //    g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);
 
     }
 }
