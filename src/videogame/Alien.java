@@ -1,30 +1,31 @@
 package videogame;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author antoniomejorado
+ * @author Jaime Hisao & Rodrigo Casale
  */
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 
 public class Alien extends Item {
     
-    private Game game;
+    //Class Variables
+    private final Game game;
     private int direction;
-    private Bomb bomb;
+    private final Bomb bomb;
     
     private int status; // 1 = alive, 2 = explotion, 3 = gone
     private int timer;
-    //New constructor
+    
+    /**
+     * Alien Class Constructor
+     * @author Jaime Hisao & Rodrigo Casale
+     * @param x X Coordinate to create Alien
+     * @param y Y Coordinate to create Alien
+     * @param width Width of the Game
+     * @param height height of the Game
+     * @param game Game Object
+     * @param direction Direction of the Alien
+     */
     public Alien(int x, int y, int width, int height, Game game, int direction) {
         super(x, y, width, height);
         this.game = game;
@@ -34,6 +35,10 @@ public class Alien extends Item {
         timer = 0;
     }
     
+    /**
+     * Ticks the Alien Object
+     * @author Jaime Hisao & Rodrigo Casale
+     */
     @Override
     public void tick() {
         //si el alien esta vivo acutara nomal
@@ -58,23 +63,46 @@ public class Alien extends Item {
         }
     }
     
+    /**
+     * Kills the Alien
+     * @author Jaime Hisao & Rodrigo Casale
+     */
     public void die(){
         this.status = 2;
     }
     
+    /**
+     * Sets the direction of the Alien Object
+     * @author Jaime Hisao & Rodrigo Casale
+     * @param direction int that sets the direction of the object
+     */
     public void setDirection(int direction){
         this.direction = direction;
     }
 
+    /**
+     * @author Jaime Hisao & Rodrigo Casale
+     * @return returns the Status of the Alien, int value: 1 = alive, 2 = explosion, 3 = gone
+     */
     public int getStatus(){
         return this.status;
     }
 
+    /**
+     * @author Jaime Hisao & Rodrigo Casale
+     * @return returns wether the Alien is visible or not.
+     */
     public boolean isVisible(){
         //return this.visible;
         return false;
     }
     
+    /**
+     * Render for Alien Object
+     * Renders the alien and also the bomb (if fired)
+     * @author Jaime Hisao & Rodrigo Casale
+     * @param g Graphics Object used in Game Class
+     */
     @Override
     public void render(Graphics g) {
         //si esta en estatus 1 enseña el alien
