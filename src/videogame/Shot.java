@@ -13,14 +13,10 @@ import java.awt.Graphics;
 public class Shot extends Item {
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
     
     private boolean visible; //Stores wether the shot has bien fired.
 =======
 
-=======
-    
->>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
 =======
     
 >>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
@@ -35,7 +31,6 @@ public class Shot extends Item {
         this.isShot = false;
         this.game = game;
     }
-<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     public void setVisibility(boolean visible){
@@ -61,11 +56,6 @@ public class Shot extends Item {
     @Override 
     public void tick(){
 >>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
-=======
-    
-    @Override 
-    public void tick(){
->>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
         //We check if the shot is fired, if so, we tick, else, nothing.
             if (isShot) {
                 setY(y+dy);
@@ -79,9 +69,6 @@ public class Shot extends Item {
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
 =======
 >>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
     
@@ -95,10 +82,6 @@ public class Shot extends Item {
     
     public void render(Graphics g){
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
-        if(this.visible)
->>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
 =======
         if(this.visible)
 >>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
@@ -110,15 +93,12 @@ public class Shot extends Item {
     }
     
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
 
     public void render(Graphics g) {
         //if(this.visible)
         g.drawImage(Assets.shot, getX(), getY(), getWidth(), getHeight(), null);
 >>>>>>> 9505bd2921254cfd709a6fecd8c0c5a65d035ca7
-=======
->>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
 =======
 >>>>>>> parent of 9505bd2... fixed compile issues and has basic functionality
     }
