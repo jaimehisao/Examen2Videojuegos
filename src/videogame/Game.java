@@ -1,8 +1,8 @@
 package videogame;
 
 /**
- * Game Class Connects most of the code together.
- *
+ * Game Class
+ * Connects most of the code together.
  * @author Jaime Hisao w/antoniomejorado
  * @author Rodrigo Casale
  */
@@ -38,17 +38,15 @@ public class Game implements Runnable {
     //Game Data & Score Keeping
     int score, lives, hits, alienHits;
     boolean gamePaused;
-
+    
     int direction;
 
     //Objects contained in the Game
     private List<Alien> aliens;
     private Player player;
-
     private Shot shot;
     private int gameStatus;
     private String message;
-    
     /**
      * Game Constructor
      * @param title Title of the Game
@@ -72,7 +70,6 @@ public class Game implements Runnable {
 
     /**
      * Saves the Game to a TXT File
-     *
      * @param fileName Filename and path of the TXT File
      */
     private void save(String path) {
@@ -84,17 +81,17 @@ public class Game implements Runnable {
             int isPaused = (gamePaused ? 1 : 0);
             //Writes lives, score, isPaused
             wrt.print(lives + " " + score + " " + isPaused + " ");
-
+            
             //Writes Player Data
             wrt.print(player.getX() + " " + player.getY() + " ");
-
+            
             //Write Alien & Bomb Data - # of aliens, x, y, direction, bombX, bombY, bombSpeed
             wrt.print(aliens.size() + " ");
-            for (Alien alien : aliens) {
-                wrt.print(alien.getX() + " " + alien.getY() + " "
-                        + alien.getDirection() + " " + alien.getBomb().getX()
-                        + " " + alien.getBomb().getY() + " "
-                        + alien.getBomb().getSpeed() + " ");
+            for(Alien alien: aliens){
+                wrt.print(alien.getX() + " " + alien.getY() + " " + 
+                        alien.getDirection() + " " + alien.getBomb().getX() 
+                        + " " + alien.getBomb().getY() + " " + 
+                        alien.getBomb().getSpeed() + " ");
             }
             //Closes the Writer.
             wrt.close();
@@ -107,7 +104,6 @@ public class Game implements Runnable {
 
     /**
      * Loads the Game from a TXT File
-     *
      * @param fileName Filename and path of the TXT File
      */
     private void load(String path) {
@@ -119,38 +115,39 @@ public class Game implements Runnable {
             int readData = 0; //Var to go over the array.
 
             //Using the values in the array, we set the game values.
+            
             //Set the lives and score
             lives = Integer.parseInt(readArr[readData++]);
             score = (Integer.parseInt(readArr[readData++]));
 
             //Set the paused status
             gamePaused = Integer.parseInt(readArr[readData++]) == 1;
-
+            
             //Read Data for Player
             player.setX(Integer.parseInt(readArr[readData++]));
             player.setY(Integer.parseInt(readArr[readData++]));
-
+            
             //Get # of Aliens
             int numberOfAliens = Integer.parseInt(readArr[readData++]);
-            int num = numberOfAliens + readData;
+            int num = numberOfAliens+readData;
             List<Alien> importedAliens = new ArrayList<Alien>();
-            for (int i = readData; i < num; i++) {
-                Alien tmp = new Alien(Integer.parseInt(readArr[readData++]),
+            for(int i = readData; i<num; i++){
+                Alien tmp = new Alien(Integer.parseInt(readArr[readData++]), 
                         Integer.parseInt(readArr[readData++]),
-                        Commons.ALIEN_WIDTH, Commons.ALIEN_HEIGHT, this,
+                Commons.ALIEN_WIDTH, Commons.ALIEN_HEIGHT, this, 
                         Integer.parseInt(readArr[readData++]),
-                        new Bomb(Integer.parseInt(readArr[readData++]),
-                                Integer.parseInt(readArr[readData++]),
-                                Commons.BOMB_HEIGHT,
-                                Commons.BOMB_HEIGHT, null, this,
-                                Integer.parseInt(readArr[readData++])));
+                new Bomb(Integer.parseInt(readArr[readData++]), 
+                        Integer.parseInt(readArr[readData++]), 
+                        Commons.BOMB_HEIGHT, 
+                        Commons.BOMB_HEIGHT, null, this, 
+                        Integer.parseInt(readArr[readData++])));
                 tmp.getBomb().setAlien(tmp);
                 importedAliens.add(tmp);
             }
-
+            
             //Equal imported list to loaded list
             aliens = importedAliens;
-
+            
             //Closes the reader resource.
             bReader.close();
 
@@ -169,15 +166,14 @@ public class Game implements Runnable {
 
     /**
      * Initializes the game with many Aliens, single player and shot.
-     *
      * @author Jaime Hisao based on Mejorado's Code
      */
     private void init() {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
-
+        
         //Initialize the Player
-        player = new Player(Commons.BOARD_WIDTH / 2, 290, 0, Commons.PLAYER_WIDTH, Commons.PLAYER_HEIGHT, this);
+        player = new Player(Commons.BOARD_WIDTH/2,290, 0, Commons.PLAYER_WIDTH,Commons.PLAYER_HEIGHT,this);
 
         //Initialize value for Aliens Array
         aliens = new ArrayList<>();
@@ -189,51 +185,44 @@ public class Game implements Runnable {
                 aliens.add(alien);
             }
         }
-
+        
         display.getJframe().addKeyListener(keyManager);
 
     }
 
     /**
-     * Tick for Game Mostly calls other Ticks and handles the KeyManager
-     *
+     * Tick for Game
+     * Mostly calls other Ticks and handles the KeyManager
      * @author Jaime Hisao & Rodrigo Casale
      */
     private void tick() {
-
-        if (player.isAlive()) {
-
-            keyManager.tick();
-            //Tick the Player
-            player.tick();
-
-            //Ticks the KeyManager to have the updated keys.
-            //Check if user wants to Load game
-            if (keyManager.load) {
-                keyManager.release(KeyEvent.VK_C);
-                try {
-                    load(fileName);
-                } catch (Exception e) {
-                    System.out.print("Unexpected Error...");
-                    //e.printStackTrace();
-                }
+        
+        keyManager.tick();
+        //Tick the Player
+        player.tick();
+   
+        //Ticks the KeyManager to have the updated keys.
+        //Check if user wants to Load game
+        if (keyManager.load) {
+            keyManager.release(KeyEvent.VK_C);
+            try{
+                load(fileName);
+            }catch(Exception e){
+                System.out.print("Unexpected Error...");
+                //e.printStackTrace();
             }
+        }
 
-            //Check if user wants to Save game
-            if (keyManager.save) {
-                keyManager.release(KeyEvent.VK_G);
-                try {
-                    save(fileName);
-                } catch (Exception e) {
-                    System.out.print("Unexpected Error...");
-                    //e.printStackTrace();
-                }
+        //Check if user wants to Save game
+        if (keyManager.save) {
+            keyManager.release(KeyEvent.VK_G);
+            try{
+                save(fileName);
+            }catch(Exception e){
+                 System.out.print("Unexpected Error...");
+                 //e.printStackTrace();
             }
-
-
-            if (keyManager.q) {
-                aliens.get(0).die();
-            }
+        }
         
         
         if (score == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
@@ -251,14 +240,9 @@ public class Game implements Runnable {
                 shot.setVisibility(false);
                 alien.die();
                 this.hits++;
-
             }
-
-            if (score == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
-
-                running = false;
-                //timer.stop();
-                //message = "Game won!";
+            if(alien.getBomb().collision(player) && player.isAlive()){
+                player.die();
             }
         }
         if(this.hits == Commons.NUMBER_OF_ALIENS_TO_DESTROY || keyManager.a){
@@ -268,23 +252,19 @@ public class Game implements Runnable {
         if(this.player.getLives() == 0){
             this.gameStatus = 1;
             this.message = "Game Over";
-
         }
     }
-    }
-
+    
     /**
      * Method that returns the player object
-     *
      * @return Returns the player object.
      */
-    public Player getPlayer() {
+    public Player getPlayer(){
         return player;
     }
 
     /**
      * Renders the Game and its components
-     *
      * @author Jaime Hisao & Rodrigo Casale
      */
     private void render() {
@@ -298,22 +278,15 @@ public class Game implements Runnable {
             g.setColor(Color.black);
             g.fillRect(0, 0, getWidth(), getHeight());
             //g.drawImage(Assets.background, 0, 0, width, height, null);
+        
 
             //Show Text for hits, lives and score
-
-            g.setColor(Color.red);
-
-            //Render Individual Game Components
-            player.render(g);
-
-
             g.setColor(Color.white);
             g.setFont(new Font("Helvetica", Font.PLAIN, 30));
             g.drawString("Lives: " + this.player.getLives(), 0, 30);
             g.drawString("Hits: " + this.hits, 0, 60);
             //Render Individual Game Components
             player.render(g);
-
 
             for (Alien alien : aliens) {
                 alien.render(g);
@@ -326,7 +299,6 @@ public class Game implements Runnable {
 
     /**
      * Process game after loosing
-     *
      * @param g Graphics, the graphics object of the game
      */
     private void gameOver() {
@@ -340,31 +312,10 @@ public class Game implements Runnable {
 
             g.setColor(Color.black);
             g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
-
-
-
-            g.setColor(Color.black);
-            g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
-
             g.setColor(new Color(0, 32, 48));
             g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
             g.setColor(Color.white);
             g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
-
-
-            Font small = new Font("Helvetica", Font.BOLD, 14);
-            //FontMetrics fontMetrics;
-            //fontMetrics = fontMetrics.getFontMetrics(small);
-
-            g.setColor(Color.white);
-            g.setFont(small);
-            g.drawString("Game Over", 100, 0);
-
-            bs.show();
-            g.dispose();
-        }
-        //stopSound();
-
 
             Font small = new Font("Helvetica", Font.BOLD, 14);
             FontMetrics fontMetrics = g.getFontMetrics(small);
@@ -378,12 +329,10 @@ public class Game implements Runnable {
             g.dispose();
         }
             
-
-    
+    }
 
     /**
      * Starts the game with a new Thread for separate execution
-     *
      * @author Jaime Hisao & Rodrigo Casale
      */
     public synchronized void start() {
@@ -396,7 +345,6 @@ public class Game implements Runnable {
 
     /**
      * Stops the thread process.
-     *
      * @author Jaime Hisao & Rodrigo Casale
      */
     public synchronized void stop() {
@@ -412,12 +360,13 @@ public class Game implements Runnable {
     }
 
     /**
-     * run Runs the game and calls the Tick and Render, part of Runnable
+     * run
+     * Runs the game and calls the Tick and Render, part of Runnable Interface-
      * @author Jaime Hisao & Rodrigo Casale
      */
     @Override
     public void run() {
-
+        
         init();
         // frames per second
         int fps = 50;
@@ -449,22 +398,19 @@ public class Game implements Runnable {
                 delta--;
             }
         }
-        //gameOver();
         //stop();
     }
-
+    
     /**
      * Returns the KeyManager
-     *
      * @return KeyManager Object
      */
-    public KeyManager getKeyManager() {
+    public KeyManager getKeyManager(){
         return this.keyManager;
     }
-
+   
     /**
      * Get Title of the Game
-     *
      * @return Title of the Game
      */
     public String getTitle() {
@@ -473,16 +419,14 @@ public class Game implements Runnable {
 
     /**
      * Set the Title of the Game
-     *
      * @param title Title of the Game
      */
     public void setTitle(String title) {
         this.title = title;
     }
-
+    
     /**
      * Get Width of the Game
-     *
      * @return width of the Game
      */
     public int getWidth() {
@@ -491,7 +435,6 @@ public class Game implements Runnable {
 
     /**
      * Set the width
-     *
      * @param width Width of the Game
      */
     public void setWidth(int width) {
@@ -500,7 +443,6 @@ public class Game implements Runnable {
 
     /**
      * Get the Height
-     *
      * @return Height of the Game
      */
     public int getHeight() {
@@ -509,7 +451,6 @@ public class Game implements Runnable {
 
     /**
      * Sets the Height
-     *
      * @param height Height of the Game
      */
     public void setHeight(int height) {
