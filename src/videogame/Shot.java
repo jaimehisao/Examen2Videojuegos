@@ -37,7 +37,7 @@ public class Shot extends Item {
     public void tick() {
         //We check if the shot is fired, if so, we tick, else, nothing.
         if (visible) {
-            setY(y -2);
+            setY(y-6);
         } else {
             setX(game.getPlayer().getX() + 6);
             setY(game.getPlayer().getY());

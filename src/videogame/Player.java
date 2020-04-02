@@ -11,8 +11,6 @@ package videogame;
  * @author antoniomejorado
  */
 import java.awt.Graphics;
-import javax.swing.ImageIcon;
-import java.awt.event.KeyEvent;
 
 public class Player extends Item {
     
@@ -26,12 +24,12 @@ public class Player extends Item {
     
     private int lives;
     
-    
     /**
      * Player Class Constructor
      * @author Jaime Hisao & Rodrigo Casale
      * @param x X Coordinate to create Alien
      * @param y Y Coordinate to create Alien
+     * @param direction Direction of the player 
      * @param width Width of the Game
      * @param height height of the Game
      * @param game Game Object
@@ -41,7 +39,7 @@ public class Player extends Item {
         super(x, y, width, height);
         this.direction = direction;
         this.game = game;
-        this.dx = 1;
+        this.dx = 3;
         alive = true;
         shot = new Shot(x, y, 2, 10, this, game);
         
@@ -105,19 +103,20 @@ public class Player extends Item {
     
     /**
      * Render for the Player
-     * If is alive it renders the player if not it renders the explotion
+     * If is alive it renders the player if not it renders the explosion
      * @author Jaime Hisao & Rodrigo Casale
      * @param g Graphics Object used in Game Class
      */
+    @Override
     public void render(Graphics g) {
         if(isAlive()){
             g.drawImage(Assets.player, getX(), getY(), getWidth(), getHeight(), null);
             shot.render(g);
         }
-        else 
+        else{
             g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);
+        }
     }
-    
     
     /**
      * @author Jaime Hisao & Rodrigo Casale
