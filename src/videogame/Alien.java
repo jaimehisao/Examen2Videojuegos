@@ -13,6 +13,7 @@ package videogame;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
@@ -24,14 +25,18 @@ public class Alien extends Item {
     
     private int status; // 1 = alive, 2 = explotion, 3 = gone
     private int timer;
+    
+    Random generator;
     //New constructor
     public Alien(int x, int y, int width, int height, Game game, int direction) {
         super(x, y, width, height);
         this.game = game;
         this.direction = direction;
         status = 1; 
-        bomb = new Bomb(x, y, 3, 3,this,game);
         timer = 0;
+        
+        generator = new Random();
+        bomb = new Bomb(x, y, 3, 3,this, game, generator.nextInt(2)+1);
     }
     
     @Override
@@ -74,7 +79,9 @@ public class Alien extends Item {
         //return this.visible;
         return false;
     }
-    
+    public Bomb getBomb(){
+        return this.bomb;
+    }
     @Override
     public void render(Graphics g) {
         //si esta en estatus 1 enseña el alien
