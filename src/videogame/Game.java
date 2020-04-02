@@ -17,7 +17,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Game implements Runnable {
@@ -73,7 +72,7 @@ public class Game implements Runnable {
     private void save(String path) {
         try {
             //Declares PrintWriter object, to write to file
-            PrintWriter wrt = new PrintWriter(new FileWriter(fileName));
+            PrintWriter wrt = new PrintWriter(new FileWriter(path));
 
             //Check wether the game is paused or not
             int isPaused = (gamePaused ? 1 : 0);
@@ -203,13 +202,21 @@ public class Game implements Runnable {
         //Check if user wants to Load game
         if (keyManager.load) {
             keyManager.release(KeyEvent.VK_C);
-            load(fileName);
+            try{
+                load(fileName);
+            }catch(Exception e){
+                System.out.print("Unexpected Error...");
+            }
         }
 
         //Check if user wants to Save game
         if (keyManager.save) {
-            keyManager.release(KeyEvent.VK_S);
-            load(fileName);
+            keyManager.release(KeyEvent.VK_G);
+            try{
+                save(fileName);
+            }catch(Exception e){
+                 System.out.print("Unexpected Error...");
+            }
         }
         
         if (keyManager.q) {
