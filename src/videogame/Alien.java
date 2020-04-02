@@ -101,6 +101,10 @@ public class Alien extends Item {
         return false;
     }
     
+    /**
+     * @author Jaime Hisao & Rodrigo Casale
+     * @return returns the Bomb object 
+     */
     public Bomb getBomb(){
         return this.bomb;
     }
