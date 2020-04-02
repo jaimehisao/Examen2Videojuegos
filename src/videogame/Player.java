@@ -135,7 +135,11 @@ public class Player extends Item {
         this.lives = lives;
     }
     
-    public void loseLive(){
+    /**
+     * Decreases a life
+     * @author Jaime Hisao & Rodrigo Casale
+     */
+    public void loseLife(){
         this.lives--;
     }
 }
