@@ -32,7 +32,7 @@ public class Game implements Runnable {
     private int width, height; //Screen Resolution
     private Thread thread; //Separate thread for game execution
     private boolean running; //To see if the game is running
-    private String fileName; //Path to the game file txt
+    private String fileName = "spaceInvaders.txt"; //Path to the game file txt
 
     //Game Data & Score Keeping
     int score, lives, hits, alienHits;
@@ -206,6 +206,7 @@ public class Game implements Runnable {
                 load(fileName);
             }catch(Exception e){
                 System.out.print("Unexpected Error...");
+                e.printStackTrace();
             }
         }
 
@@ -216,6 +217,7 @@ public class Game implements Runnable {
                 save(fileName);
             }catch(Exception e){
                  System.out.print("Unexpected Error...");
+                 e.printStackTrace();
             }
         }
         
