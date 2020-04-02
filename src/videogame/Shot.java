@@ -18,7 +18,7 @@ public class Shot extends Item {
     public Shot(int x, int y, int width, int height, Item item, Game game) {
         super(x, y, width, height);
         this.item = item;
-        this.isShot = true;
+        this.isShot = false;
         this.game = game;
     }
 

@@ -44,8 +44,11 @@ public class Player extends Item {
         this.dx = 1;
         isAlive = true;
         shot = new Shot(x, y, 2, 10, this, game);
+        shot.shoot(this.x, this.y);
     }
-  
+    public Shot getShot(){
+        return this.shot;
+    }
     @Override
     public void tick(){
         
