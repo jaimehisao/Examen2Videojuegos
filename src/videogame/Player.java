@@ -32,7 +32,6 @@ public class Player extends Item {
      * @author Jaime Hisao & Rodrigo Casale
      * @param x X Coordinate to create Alien
      * @param y Y Coordinate to create Alien
-     * @param direction Direction of the Alien
      * @param width Width of the Game
      * @param height height of the Game
      * @param game Game Object
@@ -117,5 +116,26 @@ public class Player extends Item {
         }
         else 
             g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);
+    }
+    
+    
+    /**
+     * @author Jaime Hisao & Rodrigo Casale
+     * @return returns the Shot object
+     */
+    public int getLives(){
+        return this.lives;
+    }
+    
+    /**
+     * @author Jaime Hisao & Rodrigo Casale
+     * @param lives int
+     */
+    public void setLives(int lives){
+        this.lives = lives;
+    }
+    
+    public void loseLive(){
+        this.lives--;
     }
 }
