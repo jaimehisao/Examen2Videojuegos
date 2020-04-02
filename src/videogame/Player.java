@@ -44,7 +44,7 @@ public class Player extends Item {
         this.game = game;
         this.dx = 1;
         alive = true;
-        shot = new Shot(x, y, 2, 10, this, game);
+        shot = new Shot(x, y, 1, 6, this, game);
         
         lives = 5;
     }

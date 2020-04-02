@@ -374,7 +374,8 @@ public class Game implements Runnable {
                 tick();
                 render();
                 delta--;
-            } 
+            } else{
+            }
         }
         //stop();
     }
