@@ -33,8 +33,9 @@ public class Game implements Runnable {
     private int width, height; //Screen Resolution
     private Thread thread; //Separate thread for game execution
     private boolean running; //To see if the game is running
-    private String fileName = "spaceInvaders.txt"; //Path to the game file txt
-
+    private final String fileName = "spaceInvaders.txt"; //Path to the game file txt
+    private final String highScoreFile = "highestScore.txt";
+    
     //Game Data & Score Keeping
     int score, lives, hits, alienHits;
     boolean gamePaused;
@@ -43,6 +44,7 @@ public class Game implements Runnable {
 
     //Objects contained in the Game
     private List<Alien> aliens;
+    private List<Integer> highScores;
     private Player player;
     private Shot shot;
     private int gameStatus;
@@ -66,6 +68,45 @@ public class Game implements Runnable {
         direction = 1;
         gamePaused = false;
         gameStatus = 0;
+    }
+    
+    private void saveHighScore(){
+        try {
+            //Declares PrintWriter object, to write to file
+            PrintWriter wrt = new PrintWriter(new FileWriter(highScoreFile));
+            
+            //Wrties the number of entries
+            wrt.write(title);
+            
+            for(int score : highScores){
+                 wrt.write(score + " ");
+            }
+
+            //Closes the Writer.
+            wrt.close();
+        } catch (IOException e) {
+            System.out.println("No se encontro el archivo y no se pudo guardar!");
+        }
+
+        System.out.println("Juego Guardado!");
+    }
+    
+    private void loadHighScore(){
+         //Opens the file
+         try{
+            BufferedReader bReader = new BufferedReader(new FileReader(highScoreFile));
+            String read = bReader.readLine(); //Reads the file
+            String readArr[] = read.split(" "); //Divides it into an array
+            int readData = 0; //Var to go over the array.
+            
+            int numOfScores = Integer.parseInt(readArr[readData++]);
+            
+            for(int i = numOfScores; i<numOfScores+1;i++){
+                highScores.add(Integer.parseInt(readArr[readData++]));
+            }
+         } catch (IOException e) {
+            System.out.println("No se encontro el archivo y no se pudo guardar!");
+        }
     }
 
     /**
@@ -118,7 +159,7 @@ public class Game implements Runnable {
             
             //Set the lives and score
             lives = Integer.parseInt(readArr[readData++]);
-            score = (Integer.parseInt(readArr[readData++]));
+            score = Integer.parseInt(readArr[readData++]);
 
             //Set the paused status
             gamePaused = Integer.parseInt(readArr[readData++]) == 1;
