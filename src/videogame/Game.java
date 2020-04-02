@@ -73,7 +73,7 @@ public class Game implements Runnable {
         Assets.init();
         
         //Initialize the Player
-        player = new Player(270,280, getWidth(),getHeight(),this);
+        player = new Player(Commons.BOARD_WIDTH/2,Commons.BOARD_HEIGHT-40, Commons.PLAYER_WIDTH,Commons.PLAYER_HEIGHT,this);
 
         //Initialize value for Aliens Array
         aliens = new ArrayList<>();
@@ -86,7 +86,7 @@ public class Game implements Runnable {
             }
         }
         
-        shot = new Shot(10, player.getY(), 2, 10);
+        shot = new Shot(player.getX(), player.getY(), 2, 10);
         
         display.getJframe().addKeyListener(keyManager);
 
@@ -121,23 +121,25 @@ public class Game implements Runnable {
      
         //Tick the Shot
         // shot
-        shot.tick();
         if (shot.isVisible()) {
-            
+            shot.tick();
             for (Alien alien : aliens) {
                 if (alien.isVisible()) {
                     if(shot.collision(alien)){
                         alien.die();
-                        alienHits++;
                         shot.die();
+                        alienHits++;
                     }
                 }
             }
         }
-            if(keyManager.space){
-                shot.die();
-                shot = new Shot(player.getX(), player.getY(), 2, 10);
-            }
+        if(this.keyManager.space){
+            System.out.println(this.getKeyManager().space);
+        }
+        if(!shot.isVisible()){
+            shot.setVisibility(true);
+            
+        }
 
         //Tick the Aliens
         for (Alien alien : aliens) {

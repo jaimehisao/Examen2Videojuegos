@@ -25,7 +25,7 @@ public class Player extends Item {
     public Player(int x, int y, int width, int height, Game game) {
         super(x, y, width, height);
         this.game = game;
-        
+        isAlive = true;
         dx = 0;
         visible = true;
     }
@@ -34,8 +34,10 @@ public class Player extends Item {
     @Override
     public void tick() {
         
-        if(this.game.getKeyManager().left)
+        System.out.println(this.game.getKeyManager().left);
+        if(this.game.getKeyManager().left){
             dx = -2;
+        }
         if(this.game.getKeyManager().right)
             dx = 2;
             
@@ -72,7 +74,7 @@ public class Player extends Item {
         this.isAlive = false;
     }
     public void render(Graphics g) {
-        if(isAlive)
+        if(this.visible)
             g.drawImage(Assets.player, getX(), getY(), getWidth(), getHeight(), null);
         else 
             g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);

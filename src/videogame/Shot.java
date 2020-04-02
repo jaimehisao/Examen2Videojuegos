@@ -25,6 +25,9 @@ public class Shot extends Item {
     public boolean isVisible(){
         return this.visible;
     }
+    public void setVisibility(boolean visible){
+        this.visible = visible;
+    }
     private void initShot(int x, int y) {
 
         int H_SPACE = 6;
@@ -34,7 +37,6 @@ public class Shot extends Item {
         setY(y - V_SPACE);
     }
     public void render(Graphics g){
-        if(this.visible)
             g.drawImage(Assets.shot, getX(), getY(), getWidth(), getHeight(), null);
     }
     public void die(){

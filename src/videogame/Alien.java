@@ -28,7 +28,7 @@ public class Alien extends Item {
     
     public Alien(int x, int y, int width, int height, Game game) {
         super(x, y, width, height);
-        bomb = new Bomb(x, y, width, height);
+        bomb = new Bomb(x, y, 2, 10);
         this.direction = 1;
         this.game = game;
         this.visible = true;

@@ -18,6 +18,7 @@ public class Bomb extends Item{
     public Bomb(int x, int y, int width, int height) {
         super(x, y, width, height);
         setDestroyed(true);
+        
     }
 
 
