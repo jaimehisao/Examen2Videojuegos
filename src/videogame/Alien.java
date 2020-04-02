@@ -22,49 +22,70 @@ public class Alien extends Item {
     private int direction;
     private Bomb bomb;
     
+    private int status; // 1 = alive, 2 = explotion, 3 = gone
+    private int timer;
     //New constructor
     public Alien(int x, int y, int width, int height, Game game, int direction) {
         super(x, y, width, height);
         this.game = game;
         this.direction = direction;
+        status = 1; 
         bomb = new Bomb(x, y, 3, 3,this,game);
+        timer = 0;
     }
     
     @Override
     public void tick() {
-        //could it work??
-        this.bomb.tick();
-        if (this.x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
-            direction = -1;
-            this.y += 15;
-        }else if(x <= Commons.BORDER_LEFT && direction != 1){
-            direction = 1;
-            this.y += 15;
+        //si el alien esta vivo acutara nomal
+        if(status == 1){
+            //could it work??
+            this.bomb.tick();
+            if (this.x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
+                direction = -1;
+                this.y += 15;
+            }else if(x <= Commons.BORDER_LEFT && direction != 1){
+                direction = 1;
+                this.y += 15;
+            }
+            this.x += direction;
         }
-        this.x += direction;
+        //si esta en explosion cuenta 100 segundos y cuando acabe cambia a estatus 3
+        else if(status == 2){
+            timer++;
+            if(timer >= 100){
+                status = 3;
+            }
+        }
+    }
+    
+    public void die(){
+        this.status = 2;
     }
     
     public void setDirection(int direction){
         this.direction = direction;
     }
 
-   
+    public int getStatus(){
+        return this.status;
+    }
 
     public boolean isVisible(){
         //return this.visible;
         return false;
     }
     
-    public void die(){
-        //this.isAlive = false;
-    }
     @Override
     public void render(Graphics g) {
-        //if(isAlive)
+        //si esta en estatus 1 enseña el alien
+        if(status == 1){
             g.drawImage(Assets.alien, getX(), getY(), getWidth(), getHeight(), null);
             bomb.render(g);
-        //else
-        //    g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);
+        }
+        //si esta en el 2 explosion
+        else if(status == 2)
+            g.drawImage(Assets.explosion, getX(), getY(), getWidth(), getHeight(), null);
+        
 
     }
 }

@@ -105,7 +105,9 @@ public class Game implements Runnable {
             keyManager.release(KeyEvent.VK_S);
             load(fileName);
         }
-        
+        if (keyManager.q) {
+            aliens.get(0).die();
+        }
         if (score == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
 
             running = false;
@@ -115,8 +117,10 @@ public class Game implements Runnable {
         Shot shot = player.getShot();
         for(Alien alien : aliens){
             alien.tick();
-            if(shot.collision(alien)){
+            //is there is a collision and the alien is alive
+            if(shot.collision(alien) && alien.getStatus() == 1){
                 shot.setVisibility(false);
+                alien.die();
             }
         }
 
