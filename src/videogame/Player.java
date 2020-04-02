@@ -25,6 +25,7 @@ public class Player extends Item {
     private boolean alive;
     
     private int lives;
+    private int timer;
     
     
     /**
@@ -83,6 +84,14 @@ public class Player extends Item {
             else if (getX() <= 5) {
                 setX(5);
             }
+        }else{
+            this.timer++;
+        }
+        
+        if(timer>=100 && this.lives >0){
+            this.alive = true;
+            this.timer = 0;
+            setX(Commons.BOARD_WIDTH/2);
         }
     }
    
@@ -101,6 +110,7 @@ public class Player extends Item {
      */
     public void die(){
         this.alive = false;
+        this.lives--;
     }
     
     /**
@@ -135,11 +145,4 @@ public class Player extends Item {
         this.lives = lives;
     }
     
-    /**
-     * Decreases a life
-     * @author Jaime Hisao & Rodrigo Casale
-     */
-    public void loseLife(){
-        this.lives--;
-    }
 }

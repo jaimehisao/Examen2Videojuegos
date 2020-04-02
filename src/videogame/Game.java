@@ -221,9 +221,6 @@ public class Game implements Runnable {
             }
         }
         
-        if (keyManager.q) {
-            aliens.get(0).die();
-        }
         
         if (score == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
 
@@ -272,18 +269,19 @@ public class Game implements Runnable {
             //g.drawImage(Assets.background, 0, 0, width, height, null);
         
 
-        //Show Text for hits, lives and score
-        g.setColor(Color.red);
+            //Show Text for hits, lives and score
+            g.setColor(Color.red);
+            g.setFont(new Font("Helvetica", Font.PLAIN, 30));
+            g.drawString("Lives: " + this.player.getLives(), 0, 30);
+            //Render Individual Game Components
+            player.render(g);
 
-        //Render Individual Game Components
-        player.render(g);
+            for (Alien alien : aliens) {
+                alien.render(g);
+            }
 
-        for (Alien alien : aliens) {
-            alien.render(g);
-        }
-
-        bs.show();
-        g.dispose();
+            bs.show();
+            g.dispose();
         }
     }
 
