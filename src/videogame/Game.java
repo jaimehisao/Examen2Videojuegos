@@ -281,7 +281,7 @@ public class Game implements Runnable {
         
         
         if (score == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
-
+            //saveHighScore();
             running = false;
             //timer.stop();
             //message = "Game won!";
@@ -308,7 +308,7 @@ public class Game implements Runnable {
         if(this.player.getLives() == 0){
             this.gameStatus = 1;
             this.message = "Game Over";
-            saveHighScore();
+            //saveHighScore();
         }
         this.score = this.hits * 9;
     }
@@ -465,6 +465,7 @@ public class Game implements Runnable {
                     tick();
                     render();
                 }else if(this.gameStatus == 1){
+                    saveHighScore();
                     gameOver();
                 }
                 delta--;
