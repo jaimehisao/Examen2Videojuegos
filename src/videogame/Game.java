@@ -228,6 +228,8 @@ public class Game implements Runnable {
         }
         
         display.getJframe().addKeyListener(keyManager);
+        Assets.audio.setLooping(true);
+        Assets.audio.play();
 
     }
 

@@ -22,6 +22,7 @@ public class Assets {
     
     public static SoundClip pew;
     public static SoundClip explosionSC;
+    public static SoundClip audio;
     
     public static void init(){
         player = ImageLoader.loadImage("/resources/player.png");
@@ -33,5 +34,6 @@ public class Assets {
         
         pew = new SoundClip("/sounds/pew.wav");
         explosionSC = new SoundClip("/sounds/bomb.wav");
+        audio = new SoundClip("/sounds/audio.wav");
     }
 }
