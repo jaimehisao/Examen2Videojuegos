@@ -13,6 +13,8 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -70,42 +72,52 @@ public class Game implements Runnable {
         gameStatus = 0;
     }
     
+    /*
     private void saveHighScore(){
         if(score>highScore){
             try {
                 //Declares PrintWriter object, to write to file
-                PrintWriter wrt = new PrintWriter(new FileWriter(highScoreFile));
+                BufferedWriter wrt = new BufferedWriter(new FileWriter(highScoreFile));
 
                 //Wrties the number of entries
 
-                    wrt.write(score);
+       
                     System.out.println("New highscore saved: " + score);
-
+                    wrt.write(score);
 
                 //Closes the Writer.
                 wrt.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.out.println("No se encontro el archivo y no se pudo guardar!");
             }
 
             System.out.println("high score saved!");
+        }else{
+            System.out.println("Old score kept!");
         }
     }
+    */
     
+    /*
     private void loadHighScore(){
          //Opens the file
          try{
             BufferedReader bReader = new BufferedReader(new FileReader(highScoreFile));
             String read = bReader.readLine(); //Reads the file
-            String readArr[] = read.split(" ");
             
-            highScore = Integer.parseInt(readArr[0]);
+            try{
+                highScore = Character.getNumericValue(read.charAt(0));
+            }catch(Exception e){
+                System.out.println("File was unreadable, interpreting other thing.");
+                highScore = 30;
+            }
             System.out.println("Highscore: " + highScore);
          } catch (IOException e) {
             System.out.println("No se encontro el archivo y no se pudo guardar!");
         }
          System.out.println("high score loaded!");
     }
+    */
 
     /**
      * Saves the Game to a TXT File
@@ -205,7 +217,7 @@ public class Game implements Runnable {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
         
-        loadHighScore();
+        //loadHighScore();
         
         //Initialize the Player
         player = new Player(getWidth()/2,290, 0, Commons.PLAYER_WIDTH, 
@@ -303,7 +315,7 @@ public class Game implements Runnable {
         if(this.hits == Commons.NUMBER_OF_ALIENS_TO_DESTROY || keyManager.a){
             this.gameStatus = 1;
             this.message = "You won!";
-            saveHighScore();
+            //saveHighScore();
         }
         if(this.player.getLives() == 0){
             this.gameStatus = 1;
@@ -465,7 +477,6 @@ public class Game implements Runnable {
                     tick();
                     render();
                 }else if(this.gameStatus == 1){
-                    saveHighScore();
                     gameOver();
                 }
                 delta--;
