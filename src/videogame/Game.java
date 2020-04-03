@@ -72,24 +72,24 @@ public class Game implements Runnable {
     
     private void saveHighScore(){
         if(score>highScore){
-        try {
-            //Declares PrintWriter object, to write to file
-            PrintWriter wrt = new PrintWriter(new FileWriter(highScoreFile));
-            
-            //Wrties the number of entries
-            
-                wrt.write(score);
-                System.out.println("New highscore saved: " + score);
-            
+            try {
+                //Declares PrintWriter object, to write to file
+                PrintWriter wrt = new PrintWriter(new FileWriter(highScoreFile));
 
-            //Closes the Writer.
-            wrt.close();
-        } catch (IOException e) {
-            System.out.println("No se encontro el archivo y no se pudo guardar!");
+                //Wrties the number of entries
+
+                    wrt.write(score);
+                    System.out.println("New highscore saved: " + score);
+
+
+                //Closes the Writer.
+                wrt.close();
+            } catch (IOException e) {
+                System.out.println("No se encontro el archivo y no se pudo guardar!");
+            }
+
+            System.out.println("high score saved!");
         }
-
-        System.out.println("high score saved!");
-    }
     }
     
     private void loadHighScore(){
@@ -302,6 +302,7 @@ public class Game implements Runnable {
         if(this.hits == Commons.NUMBER_OF_ALIENS_TO_DESTROY || keyManager.a){
             this.gameStatus = 1;
             this.message = "You won!";
+            saveHighScore();
         }
         if(this.player.getLives() == 0){
             this.gameStatus = 1;
