@@ -214,7 +214,7 @@ public class Game implements Runnable {
         Assets.init();
         
         //Initialize the Player
-        player = new Player(Commons.BOARD_WIDTH/2,290, 0, Commons.PLAYER_WIDTH,Commons.PLAYER_HEIGHT,this);
+        player = new Player(getWidth()/2,290, 0, Commons.PLAYER_WIDTH,Commons.PLAYER_HEIGHT,this);
 
         //Initialize value for Aliens Array
         aliens = new ArrayList<>();
@@ -339,9 +339,23 @@ public class Game implements Runnable {
             g.dispose();
         }
     }
+    
+    private void startScreen(){
+        bs = display.getCanvas().getBufferStrategy();
+        
+        if(bs == null){
+            display.getCanvas().createBufferStrategy(3);
+        }else{
+            g = bs.getDrawGraphics();
+            
+            g.setColor(Color.black);
+            g.fillRect(0, 0, getWidth(), getHeight());
+            
+        }
+    }
 
     /**
-     * Process game after loosing
+     * Render and Process game after loosing
      * @param g Graphics, the graphics object of the game
      */
     private void gameOver() {
@@ -354,11 +368,11 @@ public class Game implements Runnable {
             g = bs.getDrawGraphics();
 
             g.setColor(Color.black);
-            g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+            g.fillRect(0, 0, getWidth(), getHeight());
             g.setColor(new Color(0, 32, 48));
-            g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+            g.fillRect(50, getWidth() / 2 - 30, getWidth() - 100, 50);
             g.setColor(Color.white);
-            g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+            g.drawRect(50, getWidth() / 2 - 30, getWidth() - 100, 50);
 
             Font small = new Font("Helvetica", Font.BOLD, 14);
             FontMetrics fontMetrics = g.getFontMetrics(small);
@@ -366,12 +380,11 @@ public class Game implements Runnable {
             g.setColor(Color.white);
             g.setFont(small);
             
-            g.drawString(this.message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(this.message)) / 2,
-                Commons.BOARD_WIDTH / 2);
+            g.drawString(this.message, (getWidth() - fontMetrics.stringWidth(this.message)) / 2,
+                getWidth() / 2);
             bs.show();
             g.dispose();
-        }
-            
+        }        
     }
 
     /**
