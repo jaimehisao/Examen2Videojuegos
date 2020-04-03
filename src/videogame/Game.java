@@ -71,15 +71,16 @@ public class Game implements Runnable {
     }
     
     private void saveHighScore(){
+        if(score>highScore){
         try {
             //Declares PrintWriter object, to write to file
             PrintWriter wrt = new PrintWriter(new FileWriter(highScoreFile));
             
             //Wrties the number of entries
-            if(score>highScore){
+            
                 wrt.write(score);
                 System.out.println("New highscore saved: " + score);
-            }
+            
 
             //Closes the Writer.
             wrt.close();
@@ -88,6 +89,7 @@ public class Game implements Runnable {
         }
 
         System.out.println("high score saved!");
+    }
     }
     
     private void loadHighScore(){
