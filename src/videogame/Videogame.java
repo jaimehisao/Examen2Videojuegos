@@ -15,7 +15,7 @@ public class Videogame {
     static Game g;
     
     public static void main(String[] args) {
-        g = new Game("Space Invaders", Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+        g = new Game("Space Invaders", 358, 350);
         g.start();
     }
     

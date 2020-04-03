@@ -44,7 +44,7 @@ public class Game implements Runnable {
 
     //Objects contained in the Game
     private List<Alien> aliens;
-    private List<Integer> highScores;
+    private int highScore;
     private Player player;
     private Shot shot;
     private int gameStatus;
@@ -76,10 +76,9 @@ public class Game implements Runnable {
             PrintWriter wrt = new PrintWriter(new FileWriter(highScoreFile));
             
             //Wrties the number of entries
-            wrt.write(title);
-            
-            for(int score : highScores){
-                 wrt.write(score + " ");
+            if(score>highScore){
+                wrt.write(score);
+                System.out.println("New highscore saved: " + score);
             }
 
             //Closes the Writer.
@@ -88,7 +87,7 @@ public class Game implements Runnable {
             System.out.println("No se encontro el archivo y no se pudo guardar!");
         }
 
-        System.out.println("Juego Guardado!");
+        System.out.println("high score saved!");
     }
     
     private void loadHighScore(){
@@ -96,17 +95,13 @@ public class Game implements Runnable {
          try{
             BufferedReader bReader = new BufferedReader(new FileReader(highScoreFile));
             String read = bReader.readLine(); //Reads the file
-            String readArr[] = read.split(" "); //Divides it into an array
-            int readData = 0; //Var to go over the array.
             
-            int numOfScores = Integer.parseInt(readArr[readData++]);
-            
-            for(int i = numOfScores; i<numOfScores+1;i++){
-                highScores.add(Integer.parseInt(readArr[readData++]));
-            }
+            highScore = Integer.parseInt(read);
+            System.out.println("Highscore: " + highScore);
          } catch (IOException e) {
             System.out.println("No se encontro el archivo y no se pudo guardar!");
         }
+         System.out.println("high score loaded!");
     }
 
     /**
@@ -197,12 +192,6 @@ public class Game implements Runnable {
         }
 
         System.out.println("Juego Cargado!");
-
-        /*
-        Los archivos son guardados con la siguiente estructura.
-        vidas score estatusPausado malosCargados buenosCargados 
-        x0 y0 ... xn yn malos x0 y0 .. xn yn buenos xJugador yJugador dirJugadorX dirJugadorY
-         */
     }
 
     /**
@@ -213,8 +202,11 @@ public class Game implements Runnable {
         display = new Display(title, getWidth(), getHeight());
         Assets.init();
         
+        loadHighScore();
+        
         //Initialize the Player
-        player = new Player(Commons.BOARD_WIDTH/2,290, 0, Commons.PLAYER_WIDTH,Commons.PLAYER_HEIGHT,this);
+        player = new Player(getWidth()/2,290, 0, Commons.PLAYER_WIDTH, 
+                Commons.PLAYER_HEIGHT,this);
 
         //Initialize value for Aliens Array
         aliens = new ArrayList<>();
@@ -222,7 +214,8 @@ public class Game implements Runnable {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 6; j++) {
                 Alien alien = new Alien(Commons.ALIEN_INIT_X + 18 * j,
-                        Commons.ALIEN_INIT_Y + 18 * i, Commons.ALIEN_WIDTH, Commons.ALIEN_HEIGHT, this, 1);
+                        Commons.ALIEN_INIT_Y + 18 * i, Commons.ALIEN_WIDTH, 
+                        Commons.ALIEN_HEIGHT, this, 1);
                 aliens.add(alien);
             }
         }
@@ -241,6 +234,22 @@ public class Game implements Runnable {
     private void tick() {
         
         keyManager.tick();
+        
+        //Check if the user wants to pause
+        if(keyManager.pause){
+            keyManager.release(KeyEvent.VK_P);
+            gamePaused = !gamePaused;
+            if(gamePaused){
+                System.out.println("Game is paused");
+                Assets.audio.stop();
+            }else{
+                System.out.println("Game is running");
+                Assets.audio.play();
+            }
+        }
+        
+        if(!gamePaused){
+        
         //Tick the Player
         player.tick();
    
@@ -295,8 +304,10 @@ public class Game implements Runnable {
         if(this.player.getLives() == 0){
             this.gameStatus = 1;
             this.message = "Game Over";
+            saveHighScore();
         }
         this.score = this.hits * 9;
+    }
     }
     
     /**
@@ -340,9 +351,23 @@ public class Game implements Runnable {
             g.dispose();
         }
     }
+    
+    private void startScreen(){
+        bs = display.getCanvas().getBufferStrategy();
+        
+        if(bs == null){
+            display.getCanvas().createBufferStrategy(3);
+        }else{
+            g = bs.getDrawGraphics();
+            
+            g.setColor(Color.black);
+            g.fillRect(0, 0, getWidth(), getHeight());
+            
+        }
+    }
 
     /**
-     * Process game after loosing
+     * Render and Process game after loosing
      * @param g Graphics, the graphics object of the game
      */
     private void gameOver() {
@@ -355,11 +380,11 @@ public class Game implements Runnable {
             g = bs.getDrawGraphics();
 
             g.setColor(Color.black);
-            g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+            g.fillRect(0, 0, getWidth(), getHeight());
             g.setColor(new Color(0, 32, 48));
-            g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+            g.fillRect(50, getWidth() / 2 - 30, getWidth() - 100, 50);
             g.setColor(Color.white);
-            g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+            g.drawRect(50, getWidth() / 2 - 30, getWidth() - 100, 50);
 
             Font small = new Font("Helvetica", Font.BOLD, 14);
             FontMetrics fontMetrics = g.getFontMetrics(small);
@@ -367,12 +392,11 @@ public class Game implements Runnable {
             g.setColor(Color.white);
             g.setFont(small);
             
-            g.drawString(this.message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(this.message)) / 2,
-                Commons.BOARD_WIDTH / 2);
+            g.drawString(this.message, (getWidth() - fontMetrics.stringWidth(this.message)) / 2,
+                getWidth() / 2);
             bs.show();
             g.dispose();
-        }
-            
+        }        
     }
 
     /**
