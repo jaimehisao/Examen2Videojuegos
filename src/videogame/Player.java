@@ -90,7 +90,7 @@ public class Player extends Item {
         if(timer>=100 && this.lives >0){
             this.alive = true;
             this.timer = 0;
-            setX(Commons.BOARD_WIDTH/2);
+            setX(358/2);
         }
     }
    
