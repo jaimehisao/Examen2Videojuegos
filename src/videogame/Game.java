@@ -97,8 +97,9 @@ public class Game implements Runnable {
          try{
             BufferedReader bReader = new BufferedReader(new FileReader(highScoreFile));
             String read = bReader.readLine(); //Reads the file
+            String readArr[] = read.split(" ");
             
-            highScore = Integer.parseInt(read);
+            highScore = Integer.parseInt(readArr[0]);
             System.out.println("Highscore: " + highScore);
          } catch (IOException e) {
             System.out.println("No se encontro el archivo y no se pudo guardar!");
