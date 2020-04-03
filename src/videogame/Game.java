@@ -296,6 +296,7 @@ public class Game implements Runnable {
             this.gameStatus = 1;
             this.message = "Game Over";
         }
+        this.score = this.hits * 9;
     }
     
     /**
@@ -327,7 +328,7 @@ public class Game implements Runnable {
             g.setColor(Color.white);
             g.setFont(new Font("Helvetica", Font.PLAIN, 30));
             g.drawString("Lives: " + this.player.getLives(), 0, 30);
-            g.drawString("Hits: " + this.hits, 0, 60);
+            g.drawString("Score: " + this.score, 0, 60);
             //Render Individual Game Components
             player.render(g);
 
