@@ -408,9 +408,10 @@ public class Game implements Runnable {
             g.setColor(Color.black);
             g.fillRect(0, 0, getWidth(), getHeight());
             g.setColor(new Color(0, 32, 48));
-            g.fillRect(50, getWidth() / 2 - 30, getWidth() - 100, 50);
+            g.fillRect(hits, hits, hits, hits);
+            g.fillRect(50, getHeight() / 2 - 100, getWidth() - 100, getHeight() / 2);
             g.setColor(Color.white);
-            g.drawRect(50, getWidth() / 2 - 30, getWidth() - 100, 50);
+            g.drawRect(50, getHeight() / 2 - 100, getWidth() - 100, getHeight() / 2);
 
             Font small = new Font("Helvetica", Font.BOLD, 14);
             FontMetrics fontMetrics = g.getFontMetrics(small);
