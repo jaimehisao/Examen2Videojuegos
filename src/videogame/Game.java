@@ -366,6 +366,8 @@ public class Game implements Runnable {
                 alien.render(g);
             }
 
+            g.setColor(Color.green);
+            g.drawLine(0, 300, 358, 300);
             bs.show();
             g.dispose();
         }
