@@ -50,7 +50,8 @@ public class Game implements Runnable {
     private Player player;
     private Shot shot;
     private int gameStatus;
-    private String message;
+    private String endMessage;
+    private String scoreMessage;
     /**
      * Game Constructor
      * @param title Title of the Game
@@ -314,12 +315,14 @@ public class Game implements Runnable {
         }
         if(this.hits == Commons.NUMBER_OF_ALIENS_TO_DESTROY || keyManager.a){
             this.gameStatus = 1;
-            this.message = "You won!";
+            this.endMessage = "You won!";
+            this.scoreMessage = "Score: " + this.score;
             //saveHighScore();
         }
         if(this.player.getLives() == 0){
             this.gameStatus = 1;
-            this.message = "Game Over";
+            this.endMessage = "Game Over";
+            this.scoreMessage = "Score: " + this.score;
             //saveHighScore();
         }
         this.score = this.hits * 9;
@@ -408,8 +411,8 @@ public class Game implements Runnable {
             g.setColor(Color.white);
             g.setFont(small);
             
-            g.drawString(this.message, (getWidth() - fontMetrics.stringWidth(this.message)) / 2,
-                getWidth() / 2);
+            g.drawString(this.endMessage, (getWidth() - fontMetrics.stringWidth(this.endMessage)) / 2, getHeight() / 2 - 6);
+            g.drawString(this.scoreMessage, (getWidth() - fontMetrics.stringWidth(this.scoreMessage)) / 2, getHeight() / 2 + 12);
             bs.show();
             g.dispose();
         }        
