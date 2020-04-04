@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game implements Runnable {
 
@@ -52,6 +53,8 @@ public class Game implements Runnable {
     private int gameStatus;
     private String endMessage;
     private String scoreMessage;
+    
+    Random generator;
     /**
      * Game Constructor
      * @param title Title of the Game
@@ -71,6 +74,8 @@ public class Game implements Runnable {
         direction = 1;
         gamePaused = false;
         gameStatus = 0;
+        
+        generator = new Random();
     }
     
     /*
@@ -221,7 +226,7 @@ public class Game implements Runnable {
         //loadHighScore();
         
         //Initialize the Player
-        player = new Player(getWidth()/2,290, 0, Commons.PLAYER_WIDTH, 
+        player = new Player(getWidth()/2,getHeight()-60, 0, Commons.PLAYER_WIDTH, 
                 Commons.PLAYER_HEIGHT,this);
 
         //Initialize value for Aliens Array
@@ -349,16 +354,16 @@ public class Game implements Runnable {
             display.getCanvas().createBufferStrategy(3);
         } else {
             g = bs.getDrawGraphics();
-            g.setColor(Color.black);
-            g.fillRect(0, 0, getWidth(), getHeight());
+            g.drawImage(Assets.background, 0, 0, getWidth(), getHeight()-50, null);
+            g.setColor(Color.DARK_GRAY);
+            g.fillRect(0, getHeight()-50, getWidth(), getHeight());
             //g.drawImage(Assets.background, 0, 0, width, height, null);
-        
-
+            
             //Show Text for hits, lives and score
             g.setColor(Color.white);
-            g.setFont(new Font("Helvetica", Font.PLAIN, 30));
-            g.drawString("Lives: " + this.player.getLives(), 0, 30);
-            g.drawString("Score: " + this.score, 0, 60);
+            g.setFont(new Font("Arial", Font.PLAIN, 15));
+            g.drawString("Lives: " + this.player.getLives(), 10, getHeight() - 30);
+            g.drawString("Score: " + this.score, 10, getHeight() - 10);
             //Render Individual Game Components
             player.render(g);
 
@@ -367,7 +372,7 @@ public class Game implements Runnable {
             }
 
             g.setColor(Color.green);
-            g.drawLine(0, 300, 358, 300);
+            g.drawLine(0, getHeight()-50, getWidth(), getHeight()-50);
             bs.show();
             g.dispose();
         }

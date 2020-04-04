@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  * @author Rodrigo Casale
  */
 public class Assets {
-    public static BufferedImage background; //NVM no hay background
+    public static BufferedImage background; 
     public static BufferedImage player;
     public static BufferedImage explosion;
     public static BufferedImage alien;
@@ -27,7 +27,7 @@ public class Assets {
     public static void init(){
         player = ImageLoader.loadImage("/resources/player.png");
         explosion = ImageLoader.loadImage("/resources/explosion.png");
-        //background = ImageLoader.loadImage("/resources/background.png");
+        background = ImageLoader.loadImage("/resources/stars.jpg");
         alien = ImageLoader.loadImage("/resources/alien.png");
         shot = ImageLoader.loadImage("/resources/shot.png");
         bomb = ImageLoader.loadImage("/resources/bomb.png");

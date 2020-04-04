@@ -73,7 +73,7 @@ public class Alien extends Item {
         if(status == 1){
             //could it work??
             this.bomb.tick();
-            if (this.x >= 358 - Commons.BORDER_RIGHT && direction != -1) {
+            if (this.x >= game.getWidth() - Commons.BORDER_RIGHT && direction != -1) {
                 direction = -1;
                 this.y += 15;
             }else if(x <= Commons.BORDER_LEFT && direction != 1){

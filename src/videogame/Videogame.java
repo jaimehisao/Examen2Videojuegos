@@ -15,7 +15,7 @@ public class Videogame {
     static Game g;
     
     public static void main(String[] args) {
-        g = new Game("Space Invaders", 358, 350);
+        g = new Game("Space Invaders", 300, 400);
         g.start();
     }
     

@@ -73,7 +73,7 @@ public class Bomb extends Item {
             setX(alien.getX()+4);
             setY(alien.getY()+5);
         }
-        if (y >= 290) {
+        if (y >= game.getHeight()-50) {
             setX(alien.getX()+4);
             setY(alien.getY()+5);
         }
