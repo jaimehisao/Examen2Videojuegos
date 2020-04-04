@@ -3,8 +3,7 @@ package videogame;
 /**
  * Game Class
  * Connects most of the code together.
- * @author Jaime Hisao w/antoniomejorado
- * @author Rodrigo Casale
+ * @author Jaime Hisao & Rodrigo Casale w/antoniomejorado
  */
 import java.awt.Color;
 import java.awt.Font;
@@ -13,8 +12,6 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -37,7 +34,7 @@ public class Game implements Runnable {
     private Thread thread; //Separate thread for game execution
     private boolean running; //To see if the game is running
     private final String fileName = "spaceInvaders.txt"; //Path to the game file txt
-    private final String highScoreFile = "highestScore.txt";
+    //private final String highScoreFile = "highestScore.txt";
     
     //Game Data & Score Keeping
     int score, lives, hits, alienHits;
@@ -47,7 +44,7 @@ public class Game implements Runnable {
 
     //Objects contained in the Game
     private List<Alien> aliens;
-    private int highScore;
+    //private int highScore;
     private Player player;
     private Shot shot;
     private int gameStatus;
@@ -187,7 +184,7 @@ public class Game implements Runnable {
             //Get # of Aliens
             int numberOfAliens = Integer.parseInt(readArr[readData++]);
             int num = numberOfAliens+readData;
-            List<Alien> importedAliens = new ArrayList<Alien>();
+            List<Alien> importedAliens = new ArrayList<>();
             for(int i = readData; i<num; i++){
                 Alien tmp = new Alien(Integer.parseInt(readArr[readData++]), 
                         Integer.parseInt(readArr[readData++]),
@@ -195,8 +192,7 @@ public class Game implements Runnable {
                         Integer.parseInt(readArr[readData++]),
                 new Bomb(Integer.parseInt(readArr[readData++]), 
                         Integer.parseInt(readArr[readData++]), 
-                        Commons.BOMB_HEIGHT, 
-                        Commons.BOMB_HEIGHT, null, this, 
+                        2, 6, null, this, 
                         Integer.parseInt(readArr[readData++])));
                 tmp.getBomb().setAlien(tmp);
                 importedAliens.add(tmp);
@@ -269,6 +265,7 @@ public class Game implements Runnable {
             }
         }
         
+        //Pauses the game
         if(!gamePaused){
         
         //Tick the Player
